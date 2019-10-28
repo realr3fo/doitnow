@@ -2,4 +2,16 @@
 <resources>
     <string name="app_name">DoItNow</string>
     <string name="helloworld">Hola Mundo</string>
+    <string name="email">Email</string>
+    <string name="female">Hembra</string>
+    <string name="gender">Género</string>
+    <string name="id">Id</string>
+    <string name="login">Login</string>
+    <string name="login_here">¿Ya tienes una cuenta? Entre aquí</string>
+    <string name="logout">Logout</string>
+    <string name="male">Masculino</string>
+    <string name="no_account">¿No tienes una cuenta? Registrar aquí</string>
+    <string name="password">Contraseña</string>
+    <string name="register">Registro</string>
+    <string name="username">Username</string>
 </resources>

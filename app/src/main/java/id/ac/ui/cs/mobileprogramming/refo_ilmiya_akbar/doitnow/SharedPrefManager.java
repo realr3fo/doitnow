@@ -18,6 +18,7 @@ public class SharedPrefManager {
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_GENDER = "keygender";
     private static final String KEY_ID = "keyid";
+    private static final String KEY_TOKEN = "keytoken";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -58,7 +59,8 @@ public class SharedPrefManager {
                 sharedPreferences.getInt(KEY_ID, -1),
                 sharedPreferences.getString(KEY_USERNAME, null),
                 sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_GENDER, null)
+                sharedPreferences.getString(KEY_GENDER, null),
+                sharedPreferences.getString(KEY_TOKEN, "")
         );
     }
 

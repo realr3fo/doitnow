@@ -5,13 +5,14 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 public class User {
 
     private int id;
-    private String username, email, gender;
+    private String username, email, gender, token;
 
-    public User(int id, String username, String email, String gender) {
+    public User(int id, String username, String email, String gender, String token) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.gender = gender;
+        this.token = token;
     }
 
     public int getId() {
@@ -28,5 +29,9 @@ public class User {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

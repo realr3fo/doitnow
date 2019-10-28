@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -145,10 +146,11 @@ public class MainActivity extends AppCompatActivity {
 
                         //creating a new user object
                         User user = new User(
-                                userJson.getInt("id"),
+                                userJson.getInt("ID"),
                                 userJson.getString("username"),
                                 userJson.getString("email"),
-                                userJson.getString("gender")
+                                userJson.getString("gender"),
+                                userJson.getString("token")
                         );
 
                         //storing the user in shared preferences

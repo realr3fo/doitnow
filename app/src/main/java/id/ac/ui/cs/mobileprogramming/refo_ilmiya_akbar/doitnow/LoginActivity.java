@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,14 +19,14 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText editTextUsername, editTextPassword;
+    EditText editTextEmail, editTextPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
 
@@ -51,13 +52,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void userLogin() {
         //first getting the values
-        final String username = editTextUsername.getText().toString();
+        final String username = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
 
         //validating inputs
         if (TextUtils.isEmpty(username)) {
-            editTextUsername.setError("Please enter your username");
-            editTextUsername.requestFocus();
+            editTextEmail.setError("Please enter your email");
+            editTextEmail.requestFocus();
             return;
         }
 
@@ -72,6 +73,20 @@ public class LoginActivity extends AppCompatActivity {
         class UserLogin extends AsyncTask<Void, Void, String> {
 
             ProgressBar progressBar;
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("email", username);
+                params.put("password", password);
+
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
+            }
 
             @Override
             protected void onPreExecute() {
@@ -89,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
-
+                    Log.i("myNewTag", obj.toString());
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -99,10 +114,11 @@ public class LoginActivity extends AppCompatActivity {
 
                         //creating a new user object
                         User user = new User(
-                                userJson.getInt("id"),
+                                userJson.getInt("ID"),
                                 userJson.getString("username"),
                                 userJson.getString("email"),
-                                userJson.getString("gender")
+                                userJson.getString("gender"),
+                                userJson.getString("token")
                         );
 
                         //storing the user in shared preferences
@@ -119,19 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-            @Override
-            protected String doInBackground(Void... voids) {
-                //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
 
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("username", username);
-                params.put("password", password);
-
-                //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
-            }
         }
 
         UserLogin ul = new UserLogin();

@@ -7,15 +7,10 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="register">Register</string>
-    <string name="already_registered_nlogin_here">Already Registered? Login Here</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="dont_have_an_account_nregister_here">Dont\' have an account? Register Here</string>
-    <string name="username">Username</string>
+    <string name="no_account">Dont\' have an account? Register Here</string>
     <string name="id">Id</string>
-    <string name="username">Username</string>
-    <string name="email">Email</string>
     <string name="gender">Gender</string>
     <string name="logout">Logout</string>
+    <string name="login_here">Already have an Account? Login Here</string>
 </resources>
