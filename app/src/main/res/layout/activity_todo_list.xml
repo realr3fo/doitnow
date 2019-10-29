@@ -30,8 +30,6 @@
             android:src="@drawable/ic_add"
             android:tint="@color/colorLight"
             app:fabSize="normal" />
-
-
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
