@@ -3,9 +3,9 @@
 
     <item android:id="@+id/profile"
         android:icon="@drawable/ic_portrait_black_24dp"
-        android:title="My Profile"/>
+        android:title="@string/my_profile"/>
     <item android:id="@+id/todolist"
         android:icon="@drawable/ic_playlist_add_check_black_24dp"
-        android:title="To Do List"/>
+        android:title="@string/to_do_list"/>
 
 </menu>

@@ -16,9 +16,15 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".TodoListActivity" />
+        <activity
+            android:name=".TodoListActivity"
+            android:theme="@style/NoActionBarTheme"
+            />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".UpdateTaskActivity" />
+        <activity
+            android:name=".FragmentActivity"
+            android:theme="@style/NoActionBarTheme"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
