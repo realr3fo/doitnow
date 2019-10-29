@@ -14,4 +14,6 @@
     <string name="password">Contraseña</string>
     <string name="register">Registro</string>
     <string name="username">Username</string>
+    <string name="close">Cerrar</string>
+    <string name="open">Abierto</string>
 </resources>

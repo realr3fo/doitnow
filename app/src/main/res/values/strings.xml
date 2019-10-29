@@ -13,4 +13,8 @@
     <string name="gender">Gender</string>
     <string name="logout">Logout</string>
     <string name="login_here">Already have an Account? Login Here</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+
 </resources>

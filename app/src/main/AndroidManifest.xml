@@ -16,6 +16,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".TodoListActivity" />
+        <activity android:name=".AddTaskActivity" />
+        <activity android:name=".UpdateTaskActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
