@@ -25,8 +25,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        setTitle("Profile");
-
 
         //if the user is not logged in
         //starting the login activity
