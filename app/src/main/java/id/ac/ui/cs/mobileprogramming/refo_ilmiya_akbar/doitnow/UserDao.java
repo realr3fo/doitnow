@@ -15,11 +15,11 @@ public interface UserDao {
     List<User> getAll();
 
     @Insert
-    void insert(User task);
+    void insert(User user);
 
     @Delete
-    void delete(User task);
+    void delete(User user);
 
     @Update
-    void update(User task);
+    void update(User user);
 }

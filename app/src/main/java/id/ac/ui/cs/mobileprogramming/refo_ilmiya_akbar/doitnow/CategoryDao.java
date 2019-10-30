@@ -15,11 +15,11 @@ public interface CategoryDao {
     List<Category> getAll();
 
     @Insert
-    void insert(Category task);
+    void insert(Category category);
 
     @Delete
-    void delete(Category task);
+    void delete(Category category);
 
     @Update
-    void update(Category task);
+    void update(Category category);
 }
