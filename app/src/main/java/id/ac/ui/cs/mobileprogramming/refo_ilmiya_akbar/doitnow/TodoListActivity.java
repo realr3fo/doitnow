@@ -2,6 +2,7 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.google.android.material.navigation.NavigationView;
 
 
 //import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 //import android.support.design.widget.FloatingActionButton;
@@ -18,9 +20,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.support.v7.widget.LinearLayoutManager;
 //import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -33,11 +39,63 @@ public class TodoListActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+    private String m_Text = "";
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(t.onOptionsItemSelected(item))
+            return true;
+        switch (item.getItemId()) {
+            case R.id.filter_by_category:
+                Toast.makeText(TodoListActivity.this, "Filter By Category", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.add_category:
+                Toast.makeText(TodoListActivity.this, "Add Category", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Add Category");
+
+                // Set up the input
+                final EditText input = new EditText(this);
+                input.setHint("Category Name");
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        m_Text = input.getText().toString();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
+        setTitle("Your Tasks");
 
         recyclerView = findViewById(R.id.recyclerview_tasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,13 +146,6 @@ public class TodoListActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(t.onOptionsItemSelected(item))
-            return true;
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     private void getTasks() {
@@ -121,5 +172,6 @@ public class TodoListActivity extends AppCompatActivity {
         GetTasks gt = new GetTasks();
         gt.execute();
     }
+
 
 }

@@ -64,9 +64,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
         @Override
         public void onClick(View view) {
+
             Task task = taskList.get(getAdapterPosition());
 
-            Intent intent = new Intent(mCtx, UpdateTaskActivity.class);
+            Intent intent = new Intent(mCtx, TaskDetailActivity.class);
             intent.putExtra("task", task);
 
             mCtx.startActivity(intent);

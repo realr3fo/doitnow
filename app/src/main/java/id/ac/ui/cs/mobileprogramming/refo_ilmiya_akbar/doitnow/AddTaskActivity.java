@@ -18,6 +18,12 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+        setTitle("Create Your Task");
+
+        // Back Button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         editTextTask = findViewById(R.id.editTextTask);
         editTextDesc = findViewById(R.id.editTextDesc);
         editTextFinishBy = findViewById(R.id.editTextFinishBy);
@@ -28,6 +34,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 saveTask();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void saveTask() {
