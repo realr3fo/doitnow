@@ -14,11 +14,7 @@ public class SharedPrefManager {
 
     //the constants
     private static final String SHARED_PREF_NAME = "doitnowsharedpref";
-    private static final String KEY_USERNAME = "keyusername";
-    private static final String KEY_EMAIL = "keyemail";
-    private static final String KEY_GENDER = "keygender";
-    private static final String KEY_ID = "keyid";
-    private static final String KEY_TOKEN = "keytoken";
+    private static final String KEY_USER_ID = "keyuserid";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -36,32 +32,23 @@ public class SharedPrefManager {
 
     //method to let the user login
     //this method will store the user data in shared preferences
-    public void userLogin(User user) {
+    public void userLogin(int userID) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(KEY_ID, user.getId());
-        editor.putString(KEY_USERNAME, user.getUsername());
-        editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putString(KEY_GENDER, user.getGender());
+        editor.putInt(KEY_USER_ID, userID);
         editor.apply();
     }
 
-    //this method will checker whether user is already logged in or not
+    //this method will check whether user is already logged in or not
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_USERNAME, null) != null;
+        return sharedPreferences.getInt(KEY_USER_ID, -1) != -1;
     }
 
     //this method will give the logged in user
-    public User getUser() {
+    public int getUserID() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new User(
-                sharedPreferences.getInt(KEY_ID, -1),
-                sharedPreferences.getString(KEY_USERNAME, null),
-                sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_GENDER, null),
-                sharedPreferences.getString(KEY_TOKEN, "")
-        );
+        return sharedPreferences.getInt(KEY_USER_ID, -1);
     }
 
     //this method will logout the user

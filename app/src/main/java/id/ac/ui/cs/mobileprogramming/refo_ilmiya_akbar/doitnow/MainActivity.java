@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         final String username = editTextUsername.getText().toString().trim();
         final String email = editTextEmail.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
-
         final String gender = ((RadioButton) findViewById(radioGroupGender.getCheckedRadioButtonId())).getText().toString();
 
         //first we will do the validations
@@ -153,8 +152,11 @@ public class MainActivity extends AppCompatActivity {
                                 userJson.getString("token")
                         );
 
+                        // save to db
+                        saveUser(user);
+
                         //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getId());
 
                         //starting the profile activity
                         finish();
@@ -171,6 +173,40 @@ public class MainActivity extends AppCompatActivity {
         //executing the async task
         RegisterUser ru = new RegisterUser();
         ru.execute();
+    }
+
+    private void saveUser(User userData) {
+        final User userDataFinal = userData;
+
+        class SaveUser extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                //creating a user
+                User user = new User(
+                        userDataFinal.getId(),
+                        userDataFinal.getUsername(),
+                        userDataFinal.getEmail(),
+                        userDataFinal.getGender(),
+                        userDataFinal.getToken()
+                );
+
+
+                //adding to database
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .userDao()
+                        .insert(user);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        SaveUser st = new SaveUser();
+        st.execute();
     }
 
 }

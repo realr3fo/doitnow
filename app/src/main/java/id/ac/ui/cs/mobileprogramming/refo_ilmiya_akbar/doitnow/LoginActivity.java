@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                         );
 
                         //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getId());
 
                         //starting the profile activity
                         finish();

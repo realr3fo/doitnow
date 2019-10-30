@@ -59,35 +59,69 @@ public class TodoListActivity extends AppCompatActivity {
                 return true;
             case R.id.add_category:
                 Toast.makeText(TodoListActivity.this, "Add Category", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Add Category");
-
-                // Set up the input
-                final EditText input = new EditText(this);
-                input.setHint("Category Name");
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        m_Text = input.getText().toString();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
+                addCategoryDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void addCategoryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Category");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setHint("Category Name");
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+                saveCategory(m_Text);
+                Log.d("category", "success");
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void saveCategory(String categoryName) {
+        final String categoryNameFinal = categoryName;
+
+        class SaveCategory extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                //creating a category
+                Category cat = new Category();
+                cat.setName(categoryNameFinal);
+
+
+                //adding to database
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .categoryDao()
+                        .insert(cat);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        SaveCategory st = new SaveCategory();
+        st.execute();
     }
 
 
@@ -109,6 +143,12 @@ public class TodoListActivity extends AppCompatActivity {
             }
         });
 
+        setUpNavbar();
+        getTasks();
+
+    }
+
+    public void setUpNavbar() {
         dl = (DrawerLayout)findViewById(R.id.activity_todo);
         t = new ActionBarDrawerToggle(this, dl,R.string.open, R.string.close);
 
@@ -141,9 +181,6 @@ public class TodoListActivity extends AppCompatActivity {
 
             }
         });
-
-        getTasks();
-
     }
 
 

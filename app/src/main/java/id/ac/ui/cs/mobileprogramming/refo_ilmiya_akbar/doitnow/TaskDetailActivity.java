@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class TaskDetailActivity extends AppCompatActivity {
     private TextView textViewTaskName, textViewTaskCategory, textViewTaskDesc, textViewTaskDueDate, textViewTaskAttachments;
     private CheckBox checkBoxFinished;

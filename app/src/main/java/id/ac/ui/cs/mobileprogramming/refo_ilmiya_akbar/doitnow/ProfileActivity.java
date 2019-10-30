@@ -6,13 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -34,20 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
+
         textViewId = (TextView) findViewById(R.id.textViewId);
         textViewUsername = (TextView) findViewById(R.id.textViewUsername);
         textViewEmail = (TextView) findViewById(R.id.textViewEmail);
         textViewGender = (TextView) findViewById(R.id.textViewGender);
 
-
         //getting the current user
-        User user = SharedPrefManager.getInstance(this).getUser();
-
-        //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getId()));
-        textViewUsername.setText(user.getUsername());
-        textViewEmail.setText(user.getEmail());
-        textViewGender.setText(user.getGender());
+        int userID = SharedPrefManager.getInstance(this).getUserID();
+        getUser(userID);
 
         //when the user presses logout button
         //calling the logout method
@@ -59,8 +58,50 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        dl = (DrawerLayout)findViewById(R.id.activity_profile);
-        t = new ActionBarDrawerToggle(this, dl,R.string.open, R.string.close);
+        setUpNavbar();
+    }
+
+    private void getUser(final int userID) {
+        final int userIDFinal = userID;
+        class GetUsers extends AsyncTask<Void, Void, List<User>> {
+
+            @Override
+            protected List<User> doInBackground(Void... voids) {
+                return DatabaseClient
+                        .getInstance(getApplicationContext())
+                        .getAppDatabase()
+                        .userDao()
+                        .getAll();
+            }
+
+            @Override
+            protected void onPostExecute(List<User> users) {
+                super.onPostExecute(users);
+                User user = new User(0, "", "", "", "");
+                for (int i = 0; i < users.size(); i++) {
+                    if (users.get(i).getId() == userIDFinal) {
+                        user = users.get(i);
+                    }
+                }
+                if (user.getId() == 0) {
+                    throw new Error("User not found");
+                }
+                //setting the values to the textviews
+                textViewId.setText(String.valueOf(user.getId()));
+                textViewUsername.setText(user.getUsername());
+                textViewEmail.setText(user.getEmail());
+                textViewGender.setText(user.getGender());
+                Toast.makeText(ProfileActivity.this, "Success Get Users", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        GetUsers gu = new GetUsers();
+        gu.execute();
+    }
+
+    public void setUpNavbar() {
+        dl = (DrawerLayout) findViewById(R.id.activity_profile);
+        t = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
 
         dl.addDrawerListener(t);
         t.syncState();
@@ -91,7 +132,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

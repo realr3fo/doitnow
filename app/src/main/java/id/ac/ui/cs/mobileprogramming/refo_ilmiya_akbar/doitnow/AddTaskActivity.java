@@ -3,9 +3,12 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +22,9 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         setTitle("Create Your Task");
+
+        getCategories();
+
 
         // Back Button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,6 +46,32 @@ public class AddTaskActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void getCategories() {
+        class GetCategories extends AsyncTask<Void, Void, List<Category>> {
+
+            @Override
+            protected List<Category> doInBackground(Void... voids) {
+                return DatabaseClient
+                        .getInstance(getApplicationContext())
+                        .getAppDatabase()
+                        .categoryDao()
+                        .getAll();
+            }
+
+            @Override
+            protected void onPostExecute(List<Category> categories) {
+                super.onPostExecute(categories);
+                for (int i= 0; i < categories.size(); i++) {
+                    Log.d("categories", categories.get(i).getName());
+                }
+                Toast.makeText(AddTaskActivity.this, "Success Get Categories", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        GetCategories gu = new GetCategories();
+        gu.execute();
     }
 
     private void saveTask() {
