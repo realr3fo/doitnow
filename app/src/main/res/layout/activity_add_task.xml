@@ -99,18 +99,54 @@
             android:text="Attachments"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_button_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_add"
-            android:tint="@color/colorLight"
-            app:fabSize="normal" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/task_image_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:background="#9C9C9C"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp"
+                    android:weightSum="2" >
+                    <TextView
+                        android:id="@+id/task_image_file_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"/>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floating_button_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_add"
+                        android:tint="@color/colorLight"
+                        app:fabSize="normal" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
         <Button
             android:id="@+id/button_save"
             android:layout_width="200dp"

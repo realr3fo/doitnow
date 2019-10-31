@@ -34,6 +34,9 @@ public class Task implements Serializable {
     @ColumnInfo(name="userId")
     private int userID;
 
+    @ColumnInfo(name = "attachment_file_path")
+    private String filePath;
+
 
     /*
      * Getters and Setters
@@ -92,5 +95,13 @@ public class Task implements Serializable {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

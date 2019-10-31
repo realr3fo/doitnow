@@ -1,22 +1,37 @@
 package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.File;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,8 +44,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTaskActivity extends AppCompatActivity {
+    private final static int IMAGE_RESULT = 200;
 
     private EditText editTextTask, editTextDesc, editTextDate, editTextTime;
+    TextView textFileName;
+    String attachmentFilePath;
+
     Switch switchReminder;
     Spinner spinnerCategory;
     Calendar myCalendar;
@@ -45,8 +64,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
         setTitle("Create Your Task");
 
-        getCategories();
-
 
         // Back Button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,9 +75,15 @@ public class AddTaskActivity extends AppCompatActivity {
         editTextTime = findViewById(R.id.editTextTime);
         switchReminder = findViewById(R.id.reminder);
         spinnerCategory = findViewById(R.id.spinner_categories);
+        textFileName = findViewById(R.id.task_image_file_name);
+        attachmentFilePath = "";
 
+        ImageView taskImageView = findViewById(R.id.task_image_view);
 
+        getCategories();
         setUpDueTime();
+        setUpAttachment();
+
 
         findViewById(R.id.button_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +91,112 @@ public class AddTaskActivity extends AppCompatActivity {
                 saveTask();
             }
         });
+    }
+
+    public void setUpAttachment() {
+        FloatingActionButton fab = findViewById(R.id.floating_button_add);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
+            }
+        });
+    }
+
+    public Intent getPickImageChooserIntent() {
+
+        Uri outputFileUri = getCaptureImageOutputUri();
+
+        List<Intent> allIntents = new ArrayList<>();
+        PackageManager packageManager = getPackageManager();
+
+        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            if (outputFileUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            }
+            allIntents.add(intent);
+        }
+
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+
+        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+                mainIntent = intent;
+                break;
+            }
+        }
+        allIntents.remove(mainIntent);
+
+        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+
+        return chooserIntent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            ImageView imageView = findViewById(R.id.task_image_view);
+
+            if (requestCode == IMAGE_RESULT) {
+
+                String filePath = getImageFilePath(data);
+                attachmentFilePath = filePath;
+                String[] filenameSplit = filePath.split("/");
+                String filename = filenameSplit[filenameSplit.length-1];
+                textFileName.setText(filename);
+                if (filePath != null) {
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                    imageView.setImageBitmap(selectedImage);
+                }
+            }
+        }
+    }
+
+    public String getImageFilePath(Intent data) {
+        return getImageFromFilePath(data);
+    }
+
+    private String getImageFromFilePath(Intent data) {
+        boolean isCamera = data == null || data.getData() == null;
+
+        if (isCamera) return getCaptureImageOutputUri().getPath();
+        else return getPathFromURI(data.getData());
+
+    }
+
+    private Uri getCaptureImageOutputUri() {
+        Uri outputFileUri = null;
+        File getImage = getExternalFilesDir("");
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "capture.png"));
+        }
+        return outputFileUri;
+    }
+
+    private String getPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Audio.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     public void setUpDueTime() {
@@ -195,6 +324,7 @@ public class AddTaskActivity extends AppCompatActivity {
         final String sDesc = editTextDesc.getText().toString().trim();
         final String sDate = editTextDate.getText().toString().trim();
         final String sTime = editTextTime.getText().toString().trim();
+        final String sAttachmentFilePath = attachmentFilePath;
         final String sDueDate = sDate + " @ " + sTime;
         final boolean reminderBool = switchReminder.isChecked();
         Log.d("tasks", String.valueOf(reminderBool));
@@ -237,6 +367,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setDesc(sDesc);
                 task.setFinishBy(sDueDate);
                 task.setFinished(false);
+                task.setFilePath(sAttachmentFilePath);
                 task.setCategory(spinnerCategory.getSelectedItem().toString());
                 task.setUserID(SharedPrefManager.getInstance(AddTaskActivity.this).getUserID());
 
