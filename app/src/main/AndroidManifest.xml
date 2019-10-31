@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow">
     <!-- adding internet permission -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
@@ -24,6 +25,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
+        <receiver android:name=".MyBroadcastReceiver" >
+            <intent-filter
+                android:enabled="true"
+                android:exported="true">
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".TaskDetailActivity" />
         <activity android:name=".ProfileActivity" />
