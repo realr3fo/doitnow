@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationView;
 //import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.v7.app.AppCompatActivity;
@@ -105,6 +106,7 @@ public class TodoListActivity extends AppCompatActivity {
                 //creating a category
                 Category cat = new Category();
                 cat.setName(categoryNameFinal);
+                cat.setUserID(SharedPrefManager.getInstance(TodoListActivity.this).getUserID());
 
 
                 //adding to database

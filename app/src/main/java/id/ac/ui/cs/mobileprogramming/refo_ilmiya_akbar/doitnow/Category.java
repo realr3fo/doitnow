@@ -12,6 +12,9 @@ public class Category {
     @ColumnInfo(name = "name")
     private String name;
 
+    @ColumnInfo(name = "userId")
+    private int userID;
+
     /*
      * Getters and Setters
      * */
@@ -29,5 +32,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

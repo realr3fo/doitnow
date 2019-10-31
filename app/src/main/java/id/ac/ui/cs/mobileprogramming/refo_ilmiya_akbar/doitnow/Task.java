@@ -28,6 +28,12 @@ public class Task implements Serializable {
     @ColumnInfo(name = "finished")
     private boolean finished;
 
+    @ColumnInfo(name="category")
+    private String category;
+
+    @ColumnInfo(name="userId")
+    private int userID;
+
 
     /*
      * Getters and Setters
@@ -70,5 +76,21 @@ public class Task implements Serializable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }
