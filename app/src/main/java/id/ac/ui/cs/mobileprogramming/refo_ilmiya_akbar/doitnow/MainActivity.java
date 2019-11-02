@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 //if user pressed on login
                 //we will open the login screen
                 finish();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class) );
             }
         });
 

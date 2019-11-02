@@ -33,12 +33,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -231,9 +234,16 @@ public class AddTaskActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Calendar mcurrentTime = Calendar.getInstance();
+                final String sDate = editTextDate.getText().toString().trim();
+                if (sDate.isEmpty()) {
+                    editTextDate.setError("Date required");
+                    editTextDate.requestFocus();
+                    return;
+                }
+                final Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
+
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(AddTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
@@ -243,13 +253,30 @@ public class AddTaskActivity extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
                         datetime.set(Calendar.MINUTE, selectedMinute);
-                        if (datetime.getTimeInMillis() >= c.getTimeInMillis()) {
-                            //it's after current
+                        // check if its current date, the time is free
+                        boolean dateAfterToday = false;
+                        try {
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            Date dueDate = formatter.parse(sDate);
+                            Date today = datetime.getTime();
+                            if (dueDate.after(today)) {
+                                dateAfterToday = true;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (!dateAfterToday) {
+                            if (datetime.getTimeInMillis() >= c.getTimeInMillis()) {
+                                //it's after current
+                                String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+                                text_hour.setText(time);
+                            } else {
+                                //it's before current'
+                                Toast.makeText(getApplicationContext(), "Invalid Time", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
                             String time = String.format("%02d:%02d", selectedHour, selectedMinute);
                             text_hour.setText(time);
-                        } else {
-                            //it's before current'
-                            Toast.makeText(getApplicationContext(), "Invalid Time", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, hour, minute, true);//Yes 24 hour time
@@ -259,18 +286,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
             }
         });
-
-//        btn_get_datetime.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(AddTaskActivity.this,
-//                        "Tanggal : " + txt_tgl.getText().toString() + "\n" +
-//                                "Jam : " + txt_jam.getText().toString()
-//                        , Toast.LENGTH_SHORT
-//                ).show();
-//            }
-//        });
     }
 
     private void updateDateLabel() {
@@ -327,7 +342,6 @@ public class AddTaskActivity extends AppCompatActivity {
         final String sAttachmentFilePath = attachmentFilePath;
         final String sDueDate = sDate + " @ " + sTime;
         final boolean reminderBool = switchReminder.isChecked();
-        Log.d("tasks", String.valueOf(reminderBool));
 
 
         if (sTask.isEmpty()) {
@@ -354,6 +368,10 @@ public class AddTaskActivity extends AppCompatActivity {
             return;
         }
 
+        if (reminderBool) {
+            setReminder(sTask, sDueDate);
+        }
+
 
         class SaveTask extends AsyncTask<Void, Void, Void> {
 
@@ -370,6 +388,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setFilePath(sAttachmentFilePath);
                 task.setCategory(spinnerCategory.getSelectedItem().toString());
                 task.setUserID(SharedPrefManager.getInstance(AddTaskActivity.this).getUserID());
+                task.setReminder(reminderBool);
 
                 //adding to database
                 DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
@@ -389,6 +408,22 @@ public class AddTaskActivity extends AppCompatActivity {
 
         SaveTask st = new SaveTask();
         st.execute();
+    }
+
+    private void setReminder(String sTaskName, String sDueDate) {
+        Intent startServiceIntent = new Intent(AddTaskActivity.this, service.class);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd @ HH:mm");
+        long seconds = 1;
+        try {
+            Date dueDate = formatter.parse(sDueDate);
+            Date currentTime = Calendar.getInstance().getTime();
+            seconds = (dueDate.getTime()-currentTime.getTime())/1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        startServiceIntent.putExtra("interval", seconds);
+        startServiceIntent.putExtra("taskName", sTaskName);
+        startService(startServiceIntent);
     }
 
 }

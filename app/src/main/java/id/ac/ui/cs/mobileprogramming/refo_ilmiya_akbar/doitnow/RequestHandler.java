@@ -48,8 +48,6 @@ public class RequestHandler {
             JSONObject obj = new JSONObject(postDataParams);
             writer.write(obj.toString());
 
-//            writer.write(getPostDataString(postDataParams));
-
             writer.flush();
             writer.close();
             os.close();
@@ -73,21 +71,4 @@ public class RequestHandler {
     }
 
 
-    //this method is converting keyvalue pairs data into a query string as needed to send to the server
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        JSONObject obj = new JSONObject(params);
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append(":");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-        return result.toString();
-    }
 }

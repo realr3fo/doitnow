@@ -32,7 +32,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     public void onBindViewHolder(TasksViewHolder holder, int position) {
         Task t = taskList.get(position);
         holder.textViewTask.setText(t.getTask());
-        holder.textViewDesc.setText(t.getDesc());
         holder.textViewFinishBy.setText(t.getFinishBy());
 
         if (t.isFinished())
@@ -55,7 +54,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
             textViewTask = itemView.findViewById(R.id.textViewTask);
-            textViewDesc = itemView.findViewById(R.id.textViewDesc);
             textViewFinishBy = itemView.findViewById(R.id.textViewFinishBy);
 
 

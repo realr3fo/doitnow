@@ -37,6 +37,9 @@ public class Task implements Serializable {
     @ColumnInfo(name = "attachment_file_path")
     private String filePath;
 
+    @ColumnInfo(name = "reminder")
+    private boolean reminder;
+
 
     /*
      * Getters and Setters
@@ -103,5 +106,13 @@ public class Task implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public boolean isReminder() {
+        return reminder;
+    }
+
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
     }
 }
