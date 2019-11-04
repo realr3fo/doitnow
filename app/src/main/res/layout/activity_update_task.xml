@@ -31,9 +31,19 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/spinner_categories"
+            android:layout_width="149dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.498" />
 
         <TextView
             android:layout_width="match_parent"
@@ -54,10 +64,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <EditText
-            android:id="@+id/editTextFinishBy"
+            android:id="@+id/editTextDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your task due date" />
+            android:clickable="true"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="Date" />
+
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:inputType="none"
+            android:focusable="false"
+            android:hint="Time" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,7 +88,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <Switch
-            android:id="@+id/simpleSwitch"
+            android:id="@+id/reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -76,17 +98,54 @@
             android:text="Attachments"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_button_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_add"
-            android:tint="@color/colorLight"
-            app:fabSize="normal" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/task_image_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:background="#9C9C9C"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_margin="8dp"
+                android:weightSum="2" >
+                <TextView
+                    android:id="@+id/task_image_file_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floating_button_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_add"
+                    android:tint="@color/colorLight"
+                    app:fabSize="normal" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_update"

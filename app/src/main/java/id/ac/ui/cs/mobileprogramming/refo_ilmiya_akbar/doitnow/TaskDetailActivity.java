@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class TaskDetailActivity extends AppCompatActivity {
     private TextView textViewTaskName, textViewTaskCategory, textViewTaskDesc, textViewTaskDueDate, textViewTaskAttachments;
     private CheckBox checkBoxFinished;
+    private ImageView imageView;
     private Task task;
 
     @Override
@@ -43,6 +47,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         textViewTaskDueDate = findViewById(R.id.task_due_date);
         textViewTaskAttachments = findViewById(R.id.task_attachment);
         checkBoxFinished = findViewById(R.id.checkBoxFinished);
+        imageView = findViewById(R.id.task_detail_image_view);
 
         this.task = (Task) getIntent().getSerializableExtra("task");
 
@@ -109,10 +114,19 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     private void loadTask(Task task) {
         textViewTaskName.setText(task.getTask());
-        textViewTaskCategory.setText("task's category");
+        textViewTaskCategory.setText(task.getCategory());
         textViewTaskDesc.setText(task.getDesc());
         textViewTaskDueDate.setText(task.getFinishBy());
-        textViewTaskAttachments.setText("task's attachments");
+        String taskAttachmentFilePath = task.getFilePath();
+        if (!taskAttachmentFilePath.equals("")) {
+            String[] fileNameArr = taskAttachmentFilePath.split("/");
+            String fileName = fileNameArr[fileNameArr.length-1];
+            Bitmap selectedImage = BitmapFactory.decodeFile(taskAttachmentFilePath);
+            imageView.setImageBitmap(selectedImage);
+            textViewTaskAttachments.setText(fileName);
+        } else {
+            textViewTaskAttachments.setText("None");
+        }
         checkBoxFinished.setChecked(task.isFinished());
     }
 
