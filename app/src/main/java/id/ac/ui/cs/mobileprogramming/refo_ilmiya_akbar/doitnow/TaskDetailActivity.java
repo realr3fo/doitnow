@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +62,30 @@ public class TaskDetailActivity extends AppCompatActivity {
                 updateTask(task);
             }
         });
+        Button deleteButton = findViewById(R.id.button_delete);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               AlertDialog.Builder builder = new AlertDialog.Builder(TaskDetailActivity.this);
+               builder.setTitle("Are you sure?");
+               builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       deleteTask(task);
+                   }
+               });
+               builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                   }
+               });
+
+               AlertDialog ad = builder.create();
+               ad.show();
+           }
+        });
 
     }
 
@@ -68,47 +93,6 @@ public class TaskDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.task_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.update_task:
-                // Update Task
-                Toast.makeText(TaskDetailActivity.this, "Update Task", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), UpdateTaskActivity.class);
-                intent.putExtra("task", this.task);
-                startActivity(intent);
-                return true;
-            case R.id.delete_task:
-                AlertDialog.Builder builder = new AlertDialog.Builder(TaskDetailActivity.this);
-                builder.setTitle("Are you sure?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteTask(task);
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                AlertDialog ad = builder.create();
-                ad.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
 

@@ -110,6 +110,16 @@
             android:background="#9C9C9C"
             android:scaleType="centerCrop" />
 
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorRed"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/colorLight" />
 
     </LinearLayout>
 

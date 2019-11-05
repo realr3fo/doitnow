@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -43,7 +42,6 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".TodoListActivity" />
         <activity android:name=".AddTaskActivity" />
-        <activity android:name=".UpdateTaskActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

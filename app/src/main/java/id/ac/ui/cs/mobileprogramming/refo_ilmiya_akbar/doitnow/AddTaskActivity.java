@@ -1,10 +1,12 @@
 package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -13,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -46,8 +49,14 @@ import java.util.Objects;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+
 public class AddTaskActivity extends AppCompatActivity {
     private final static int IMAGE_RESULT = 200;
+    private final static int ALL_PERMISSIONS_RESULT = 107;
 
     private EditText editTextTask, editTextDesc, editTextDate, editTextTime;
     TextView textFileName;
@@ -59,6 +68,11 @@ public class AddTaskActivity extends AppCompatActivity {
 
     DatePickerDialog.OnDateSetListener date;
     EditText text_date, text_hour;
+
+    private ArrayList<String> permissionsToRequest;
+    private ArrayList<String> permissionsRejected = new ArrayList<>();
+    private ArrayList<String> permissions = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +108,96 @@ public class AddTaskActivity extends AppCompatActivity {
                 saveTask();
             }
         });
+
+        permissions.add(CAMERA);
+        permissions.add(WRITE_EXTERNAL_STORAGE);
+        permissions.add(READ_EXTERNAL_STORAGE);
+        permissionsToRequest = findUnAskedPermissions(permissions);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+            if (permissionsToRequest.size() > 0)
+                requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+        }
     }
+
+    private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
+        ArrayList<String> result = new ArrayList<String>();
+
+        for (String perm : wanted) {
+            if (!hasPermission(perm)) {
+                result.add(perm);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean hasPermission(String permission) {
+        if (canMakeSmores()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+            }
+        }
+        return true;
+    }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+
+    private boolean canMakeSmores() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+
+            case ALL_PERMISSIONS_RESULT:
+                for (String perms : permissionsToRequest) {
+                    if (!hasPermission(perms)) {
+                        permissionsRejected.add(perms);
+                    }
+                }
+
+                if (permissionsRejected.size() > 0) {
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+                                                requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+
+                }
+
+                break;
+        }
+
+    }
+
+
 
     public void setUpAttachment() {
         FloatingActionButton fab = findViewById(R.id.floating_button_add);
@@ -163,7 +266,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 String filePath = getImageFilePath(data);
                 attachmentFilePath = filePath;
                 String[] filenameSplit = filePath.split("/");
-                String filename = filenameSplit[filenameSplit.length-1];
+                String filename = filenameSplit[filenameSplit.length - 1];
                 textFileName.setText(filename);
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
@@ -317,11 +420,11 @@ public class AddTaskActivity extends AppCompatActivity {
                 super.onPostExecute(categories);
                 List<String> listSpinner = new ArrayList<String>();
                 listSpinner.add("default");
-                for (int i= 0; i < categories.size(); i++) {
+                for (int i = 0; i < categories.size(); i++) {
                     listSpinner.add(categories.get(i).getName());
                 }
-                String[] arraySpinner = new String[ listSpinner.size() ];
-                listSpinner.toArray( arraySpinner );
+                String[] arraySpinner = new String[listSpinner.size()];
+                listSpinner.toArray(arraySpinner);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTaskActivity.this,
                         android.R.layout.simple_spinner_item, arraySpinner);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -417,7 +520,7 @@ public class AddTaskActivity extends AppCompatActivity {
         try {
             Date dueDate = formatter.parse(sDueDate);
             Date currentTime = Calendar.getInstance().getTime();
-            seconds = (dueDate.getTime()-currentTime.getTime())/1000;
+            seconds = (dueDate.getTime() - currentTime.getTime()) / 1000;
         } catch (ParseException e) {
             e.printStackTrace();
         }
