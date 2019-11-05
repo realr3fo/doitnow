@@ -490,7 +490,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setFinished(false);
                 task.setFilePath(sAttachmentFilePath);
                 task.setCategory(spinnerCategory.getSelectedItem().toString());
-                task.setUserID(SharedPrefManager.getInstance(AddTaskActivity.this).getUserID());
+                task.setUserMail(SharedPrefManager.getInstance(AddTaskActivity.this).getUserEmail());
                 task.setReminder(reminderBool);
 
                 //adding to database

@@ -31,8 +31,8 @@ public class Task implements Serializable {
     @ColumnInfo(name="category")
     private String category;
 
-    @ColumnInfo(name="userId")
-    private int userID;
+    @ColumnInfo(name="userMail")
+    private String userMail;
 
     @ColumnInfo(name = "attachment_file_path")
     private String filePath;
@@ -92,14 +92,6 @@ public class Task implements Serializable {
         this.category = category;
     }
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
     public String getFilePath() {
         return filePath;
     }
@@ -114,5 +106,13 @@ public class Task implements Serializable {
 
     public void setReminder(boolean reminder) {
         this.reminder = reminder;
+    }
+
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
     }
 }
