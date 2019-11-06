@@ -45,8 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
         textViewGender = (TextView) findViewById(R.id.textViewGender);
 
         //getting the current user
-        int userID = SharedPrefManager.getInstance(this).getUserID();
-        getUser(userID);
+        String userEmail = SharedPrefManager.getInstance(this).getUserEmail();
+        getUser(userEmail);
 
         //when the user presses logout button
         //calling the logout method
@@ -61,8 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
         setUpNavbar();
     }
 
-    private void getUser(final int userID) {
-        final int userIDFinal = userID;
+    private void getUser(final String userEmail) {
+        final String userEmailFinal = userEmail;
         class GetUsers extends AsyncTask<Void, Void, List<User>> {
 
             @Override
@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
                 super.onPostExecute(users);
                 User user = new User(0, "", "", "", "");
                 for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getId() == userIDFinal) {
+                    if (users.get(i).getEmail().equals(userEmailFinal)) {
                         user = users.get(i);
                     }
                 }

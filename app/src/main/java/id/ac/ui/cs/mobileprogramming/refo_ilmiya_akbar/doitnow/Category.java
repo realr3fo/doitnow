@@ -1,5 +1,7 @@
 package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 
+import java.sql.Timestamp;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -12,8 +14,19 @@ public class Category {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "userId")
-    private int userID;
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
+    }
+
+    @ColumnInfo(name = "userMail")
+    private String userMail;
+
+    @ColumnInfo(name = "createdAt")
+    private String createdAt;
 
     /*
      * Getters and Setters
@@ -34,11 +47,11 @@ public class Category {
         this.name = name;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

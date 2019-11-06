@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -120,10 +121,11 @@ public class LoginActivity extends AppCompatActivity {
                                 userJson.getString("token")
                         );
 
-                        //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getId(), user.getEmail());
+                        checkUserExistence(user);
 
-                        //starting the profile activity
+                        //storing the user in shared preferences
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getEmail());
+
                         finish();
                         startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
                     } else {
@@ -139,5 +141,71 @@ public class LoginActivity extends AppCompatActivity {
 
         UserLogin ul = new UserLogin();
         ul.execute();
+    }
+
+    private void checkUserExistence(User userLogin){
+        final User currentUser = userLogin;
+        class CheckUserExistence extends AsyncTask<Void, Void, List<User>> {
+            @Override
+            protected List<User> doInBackground(Void... voids) {
+                return DatabaseClient
+                        .getInstance(getApplicationContext())
+                        .getAppDatabase()
+                        .userDao()
+                        .getAll();
+            }
+
+            @Override
+            protected void onPostExecute(List<User> users) {
+                super.onPostExecute(users);
+                User user = new User(0, "", "", "", "");
+                for (int i = 0; i < users.size(); i++) {
+                    Log.d("Profile", users.get(i).toString());
+                    if (users.get(i).getEmail().equalsIgnoreCase(currentUser.getEmail())) {
+                        user = users.get(i);
+                    }
+                }
+                if (user.getId() == 0) {
+                    saveUser(currentUser);
+                }
+            }
+
+        }
+        CheckUserExistence cue = new CheckUserExistence();
+        cue.execute();
+    }
+
+    private void saveUser(User userData) {
+        final User userDataFinal = userData;
+
+        class SaveUser extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                //creating a user
+                User user = new User(
+                        userDataFinal.getId(),
+                        userDataFinal.getUsername(),
+                        userDataFinal.getEmail(),
+                        userDataFinal.getGender(),
+                        userDataFinal.getToken()
+                );
+
+
+                //adding to database
+                DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
+                        .userDao()
+                        .insert(user);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        SaveUser st = new SaveUser();
+        st.execute();
     }
 }

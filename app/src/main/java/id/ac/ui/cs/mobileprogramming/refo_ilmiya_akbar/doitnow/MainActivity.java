@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //if the user is already logged in we will directly start the profile activity
+//        if the user is already logged in we will directly start the profile activity
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
             startActivity(new Intent(this, TodoListActivity.class));
@@ -155,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
                         saveUser(user);
 
                         //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getId(), user.getEmail());
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin( user.getEmail());
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Some error occurred", Toast.LENGTH_SHORT).show();
                     }
