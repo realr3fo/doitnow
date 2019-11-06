@@ -9,6 +9,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder> {
@@ -16,10 +18,16 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     class CategoryViewHolder extends RecyclerView.ViewHolder {
         private final TextView categoryNameView;
+        private final ViewDataBinding binding;
 
-        private CategoryViewHolder(View itemView) {
-            super(itemView);
+        private CategoryViewHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
             categoryNameView = itemView.findViewById(R.id.category_name);
+            this.binding = binding;
+        }
+        public void bind(Object obj) {
+            binding.setVariable(BR.category,obj);
+            binding.executePendingBindings();
         }
     }
 
@@ -32,17 +40,19 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.adapter_category_item, parent, false);
-        return new CategoryViewHolder(itemView);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.adapter_category_item, parent, false);
+        return new CategoryViewHolder(binding);
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         if (mCategories!= null) {
             Category current = mCategories.get(position);
-            holder.categoryNameView.setText(current.getName());
+            holder.bind(current);
         } else {
-            // Covers the case of data not being ready yet.
             holder.categoryNameView.setText("No Word");
         }
     }
