@@ -166,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
                 super.onPostExecute(users);
                 User user = new User(0, "", "", "", "");
                 for (int i = 0; i < users.size(); i++) {
-                    Log.d("Profile", users.get(i).toString());
                     if (users.get(i).getEmail().equalsIgnoreCase(currentUser.getEmail())) {
                         user = users.get(i);
                     }

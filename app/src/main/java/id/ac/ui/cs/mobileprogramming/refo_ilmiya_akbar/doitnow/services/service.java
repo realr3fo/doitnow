@@ -23,7 +23,6 @@ public class service extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
         final int pid = startId;
-        Log.d(TAG, String.valueOf(pid));
         final long interval = intent.getLongExtra("interval", -1);
         final String taskName = intent.getStringExtra("taskName");
         // Execute an action after period time
@@ -40,7 +39,6 @@ public class service extends Service {
             public void run() {
                 // Print a log
                 String str = "interval " + interval;
-                Log.d(TAG, str);
                 // PUSH NOTIFICATION
                 updateUI.sendEmptyMessage(0);
                 stopSelfResult(pid);

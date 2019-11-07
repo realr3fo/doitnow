@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -26,22 +27,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.AddTaskActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskListActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters.TasksAdapter;
 
 public class TaskListFragment extends Fragment {
-    public static interface Listener {
-        void itemClicked(long id);
-    }
-
-    ;
-
-    private Listener listener;
     private FloatingActionButton buttonAddTask, buttonAddCategory;
     private Button buttonFilterCategory;
     private RecyclerView recyclerView;
@@ -111,7 +107,6 @@ public class TaskListFragment extends Fragment {
                 }
             });
             adjustLayoutWeights();
-            Log.d("taskListFragment", "hello world");
             // load task list data
         }
     }
@@ -190,7 +185,6 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.listener = (Listener) context;
     }
 
     @Override
@@ -211,7 +205,15 @@ public class TaskListFragment extends Fragment {
                         .getAppDatabase()
                         .taskDao()
                         .getAll();
-                return taskList;
+                List<Task> filterizedTask = new ArrayList<>();
+                assert taskList != null;
+                for (Task t: taskList) {
+                    String userEmail = SharedPrefManager.getInstance(getActivity()).getUserEmail();
+                    if (t.getUserMail().equalsIgnoreCase(userEmail)) {
+                        filterizedTask.add(t);
+                    }
+                }
+                return filterizedTask;
             }
 
             @Override

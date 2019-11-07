@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.RegistrationActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskDetailActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class TaskDetailFragment extends Fragment {
     private Task task;
@@ -130,7 +129,6 @@ public class TaskDetailFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... voids) {
                 @SuppressLint("WrongThread") boolean isChecked = checkBoxFinished.isChecked();
-                Log.d("ischecked", String.valueOf(isChecked));
                 task.setFinished(isChecked);
                 DatabaseClient.getInstance(getActivity()).getAppDatabase()
                         .taskDao()

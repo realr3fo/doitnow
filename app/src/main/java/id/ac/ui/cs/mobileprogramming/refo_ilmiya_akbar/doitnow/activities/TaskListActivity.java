@@ -9,24 +9,22 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.fragments.TaskListFragment;
 
-public class TaskListActivity extends AppCompatActivity implements TaskListFragment.Listener {
-    private DrawerLayout dl;
+public class TaskListActivity extends AppCompatActivity {
     private ActionBarDrawerToggle t;
-    private NavigationView nv;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Your Tasks");
-        Log.d("taskActivityFragment", "hello world");
         setContentView(R.layout.activity_task_list);
     }
 
@@ -39,15 +37,15 @@ public class TaskListActivity extends AppCompatActivity implements TaskListFragm
     }
 
     public void setUpNavbar() {
-        dl = (DrawerLayout) findViewById(R.id.activity_todo);
+        DrawerLayout dl = findViewById(R.id.activity_todo);
         t = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
 
         dl.addDrawerListener(t);
         t.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        nv = (NavigationView) findViewById(R.id.nv);
+        NavigationView nv = (NavigationView) findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -65,15 +63,10 @@ public class TaskListActivity extends AppCompatActivity implements TaskListFragm
                     default:
                         return true;
                 }
-
-
                 return true;
 
             }
         });
     }
 
-    @Override
-    public void itemClicked(long id) {
-    }
 }

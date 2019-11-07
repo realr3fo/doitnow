@@ -41,12 +41,11 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
         return categoryInfoView;
     }
 
-    EditText categoryName;
-    Button saveCategory;
+    private EditText categoryName;
 
     private void initViews(View view) {
-        categoryName = (EditText) view.findViewById(R.id.category_name);
-        saveCategory = (Button) view.findViewById(R.id.save_info);
+        categoryName = view.findViewById(R.id.category_name);
+        Button saveCategory = view.findViewById(R.id.save_info);
         saveCategory.setOnClickListener(this);
     }
 

@@ -14,8 +14,8 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
-    LiveData<List<Category>> mAllCategories;
-    public CategoryRepository(Application application){
+    private LiveData<List<Category>> mAllCategories;
+    public CategoryRepository(){
         Context context = GlobalApplication.getAppContext();
         categoryDao = DatabaseClient.getInstance(context).getAppDatabase().categoryDao();
         mAllCategories = categoryDao.getAllLiveCategories();

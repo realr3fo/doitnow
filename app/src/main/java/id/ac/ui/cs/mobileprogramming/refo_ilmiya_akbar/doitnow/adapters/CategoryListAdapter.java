@@ -26,38 +26,41 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             categoryNameView = itemView.findViewById(R.id.category_name);
             this.binding = binding;
         }
-        public void bind(Object obj) {
-            binding.setVariable(id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.BR.category,obj);
+
+        void bind(Object obj) {
+            binding.setVariable(id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.BR.category, obj);
             binding.executePendingBindings();
         }
     }
 
-    private final LayoutInflater mInflater;
-    private List<Category> mCategories; // Cached copy of users
+    private List<Category> mCategories;
 
 
-    public CategoryListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    public CategoryListAdapter(Context context) {
+        LayoutInflater mInflater = LayoutInflater.from(context);
+    }
 
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.adapter_category_item, parent, false);
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater,
+                R.layout.adapter_category_item, parent, false);
         return new CategoryViewHolder(binding);
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        if (mCategories!= null) {
+        if (mCategories != null) {
             Category current = mCategories.get(position);
             holder.bind(current);
         } else {
             holder.categoryNameView.setText("No Word");
         }
     }
-    public void setWords(List<Category> categories){
+
+    public void setWords(List<Category> categories) {
         mCategories = categories;
         notifyDataSetChanged();
     }
@@ -66,8 +69,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public int getItemCount() {
         if (mCategories != null) {
             return mCategories.size();
-        }else{
-            return  0;
+        } else {
+            return 0;
         }
     }
 }
