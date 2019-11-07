@@ -1,6 +1,12 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.RequestHandler;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.URLs;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.User;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -46,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //open register screen
                 finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
         });
     }
@@ -127,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getEmail());
 
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
+                        startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid email or password", Toast.LENGTH_SHORT).show();
                     }

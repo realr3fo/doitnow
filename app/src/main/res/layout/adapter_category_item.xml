@@ -4,7 +4,7 @@
 
         <variable
             name="category"
-            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.Category" />
+            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category" />
     </data>
 
     <LinearLayout

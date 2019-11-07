@@ -1,6 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
-
-import java.sql.Timestamp;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

@@ -5,7 +5,7 @@
 
         <variable
             name="task"
-            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.Task" />
+            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

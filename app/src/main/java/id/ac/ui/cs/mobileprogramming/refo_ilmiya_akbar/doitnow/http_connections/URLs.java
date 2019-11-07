@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections;
 
 public class URLs {
 

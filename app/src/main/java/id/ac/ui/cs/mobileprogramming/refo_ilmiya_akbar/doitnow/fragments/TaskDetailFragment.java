@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.RegistrationActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskDetailActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class TaskDetailFragment extends Fragment {
     private Task task;
@@ -48,9 +53,9 @@ public class TaskDetailFragment extends Fragment {
             getActivity().setTitle("Task Detail");
 
             // Back Button
-            if (getActivity() != null && getActivity() instanceof TaskDetailActivityFragment) {
+            if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
 
-                ((TaskDetailActivityFragment) getActivity()).setUpBackButton();
+                ((TaskDetailActivity) getActivity()).setUpBackButton();
             }
             textViewTaskName = view.findViewById(R.id.task_name);
             textViewTaskCategory = view.findViewById(R.id.task_category);
@@ -138,7 +143,7 @@ public class TaskDetailFragment extends Fragment {
                 super.onPostExecute(aVoid);
                 Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
                 getActivity().finish();
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                startActivity(new Intent(getActivity(), RegistrationActivity.class));
             }
         }
 
@@ -162,7 +167,7 @@ public class TaskDetailFragment extends Fragment {
                 super.onPostExecute(aVoid);
                 Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
                 getActivity().finish();
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                startActivity(new Intent(getActivity(), RegistrationActivity.class));
             }
         }
 

@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters.CategoryListAdapter;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.view_models.CategoryListViewModel;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class CategoryListFragment extends Fragment {
     private CategoryListViewModel categoryListViewModel;

@@ -1,8 +1,7 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder> {
 
@@ -26,7 +27,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             this.binding = binding;
         }
         public void bind(Object obj) {
-            binding.setVariable(BR.category,obj);
+            binding.setVariable(id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.BR.category,obj);
             binding.executePendingBindings();
         }
     }
@@ -35,7 +36,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     private List<Category> mCategories; // Cached copy of users
 
 
-    CategoryListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    public CategoryListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
     @NonNull
     @Override
@@ -56,7 +57,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             holder.categoryNameView.setText("No Word");
         }
     }
-    void setWords(List<Category> categories){
+    public void setWords(List<Category> categories){
         mCategories = categories;
         notifyDataSetChanged();
     }

@@ -1,6 +1,12 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.RequestHandler;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.URLs;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.User;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,7 +24,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     EditText editTextUsername, editTextEmail, editTextPassword;
     RadioGroup radioGroupGender;
@@ -32,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //        if the user is already logged in we will directly start the profile activity
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            startActivity(new Intent(this, TaskActivityFragment.class));
+            startActivity(new Intent(this, TaskListActivity.class));
             return;
         }
 
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 //if user pressed on login
                 //we will open the login screen
                 finish();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class) );
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class) );
             }
         });
 
@@ -159,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
+                        startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Some error occurred", Toast.LENGTH_SHORT).show();
                     }

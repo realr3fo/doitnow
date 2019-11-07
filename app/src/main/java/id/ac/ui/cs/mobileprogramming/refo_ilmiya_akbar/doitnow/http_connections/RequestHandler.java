@@ -1,6 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
-
-import android.util.Log;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections;
 
 import org.json.JSONObject;
 
@@ -9,25 +7,13 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Created by Belal on 9/5/2017.
- */
-
 public class RequestHandler {
-
-
-    //this method will send a post request to the specified url
-    //in this app we are using only post request
-    //in the hashmap we have the data to be sent to the server in keyvalue pairs
     public String sendPostRequest(String requestURL, HashMap<String, String> postDataParams) {
         URL url;
 

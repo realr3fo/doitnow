@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.repositories;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,6 +7,10 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.daos.CategoryDao;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;

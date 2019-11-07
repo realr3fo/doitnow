@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -33,7 +34,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +44,12 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.services.service;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -53,6 +59,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class AddTaskActivity extends AppCompatActivity {
     private final static int IMAGE_RESULT = 200;
     private final static int ALL_PERMISSIONS_RESULT = 107;
+    private String fileName = "";
 
     private EditText editTextTask, editTextDesc, editTextDate, editTextTime;
     TextView textFileName;
@@ -257,17 +264,13 @@ public class AddTaskActivity extends AppCompatActivity {
 
             ImageView imageView = findViewById(R.id.task_image_view);
 
+
             if (requestCode == IMAGE_RESULT) {
 
                 String filePath = getImageFilePath(data);
-                attachmentFilePath = filePath;
-                String[] filenameSplit = filePath.split("/");
-                String filename = filenameSplit[filenameSplit.length - 1];
-                textFileName.setText(filename);
-                if (filePath != null) {
-                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-                    imageView.setImageBitmap(selectedImage);
-                }
+                textFileName.setText(String.format("%s.png", this.fileName));
+                Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                imageView.setImageBitmap(selectedImage);
             }
         }
     }
@@ -287,10 +290,13 @@ public class AddTaskActivity extends AppCompatActivity {
     private Uri getCaptureImageOutputUri() {
         Uri outputFileUri = null;
         File getImage = getExternalFilesDir("");
+        if (this.fileName.equals("")) {
+            long tsLong = System.currentTimeMillis()/1000;
+            this.fileName = String.valueOf(tsLong);
+        }
         if (getImage != null) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            String fileName = timestamp + ".png";
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), fileName));
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), this.fileName + ".png"));
+
         }
         return outputFileUri;
     }
@@ -502,7 +508,7 @@ public class AddTaskActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-                startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
+                startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }

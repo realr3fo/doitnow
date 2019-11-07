@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.daos;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.User;
 
 @Dao
 public interface UserDao {

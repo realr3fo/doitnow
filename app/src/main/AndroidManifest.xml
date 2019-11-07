@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication"
@@ -27,7 +28,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".MyBroadcastReceiver">
+        <receiver android:name=".broadcast_receivers.MyBroadcastReceiver">
             <intent-filter
                 android:enabled="true"
                 android:exported="true">
@@ -37,20 +38,19 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TaskDetailActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".TaskActivityFragment"/>
-        <activity android:name=".TaskDetailActivityFragment"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.AddTaskActivity" />
+        <activity android:name=".activities.TaskListActivity"/>
+        <activity android:name=".activities.TaskDetailActivity"/>
+        <activity android:name=".activities.RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service"/>
+        <service android:name=".services.service"/>
     </application>
 
 </manifest>

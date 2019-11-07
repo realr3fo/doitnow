@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
+package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +14,10 @@ import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.view_models.CategoryListViewModel;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
 
 public class CategoryInfoFragment extends Fragment implements View.OnClickListener {
     private CategoryListViewModel categoryListViewModel;
