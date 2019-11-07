@@ -1,48 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
 
-    <androidx.cardview.widget.CardView
+        <variable
+            name="task"
+            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.Task" />
+    </data>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="7dp">
+            android:layout_marginBottom="3dp">
 
-            <TextView
-                android:id="@+id/textViewStatus"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:text="Completed"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorLight"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="7dp">
 
-            <TextView
-                android:id="@+id/textViewTask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Go Bring Eggs"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+                <TextView
+                    android:id="@+id/textViewStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorLight"
+                    android:text="@{task.completed()}"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{task.getTask()}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
 
-            <TextView
-                android:id="@+id/textViewFinishBy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="5pm today"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:id="@+id/textViewFinishBy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{task.getFinishBy()}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

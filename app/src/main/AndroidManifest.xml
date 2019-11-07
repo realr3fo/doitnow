@@ -39,6 +39,8 @@
 
         <activity android:name=".TaskDetailActivity" />
         <activity android:name=".ProfileActivity" />
+        <activity android:name=".WorkoutActivity"/>
+        <activity android:name=".WorkoutDetailActivity"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".TodoListActivity" />
         <activity android:name=".AddTaskActivity" />

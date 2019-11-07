@@ -88,6 +88,14 @@ public class Task implements Serializable {
         return category;
     }
 
+    public String completed() {
+        if (this.isFinished()) {
+            return "Completed";
+        } else {
+            return "Not Completed";
+        }
+    }
+
     public void setCategory(String category) {
         this.category = category;
     }
