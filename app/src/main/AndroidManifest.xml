@@ -39,11 +39,10 @@
 
         <activity android:name=".TaskDetailActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".WorkoutActivity"/>
-        <activity android:name=".WorkoutDetailActivity"/>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".TodoListActivity" />
         <activity android:name=".AddTaskActivity" />
+        <activity android:name=".TaskActivityFragment"/>
+        <activity android:name=".TaskDetailActivityFragment"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

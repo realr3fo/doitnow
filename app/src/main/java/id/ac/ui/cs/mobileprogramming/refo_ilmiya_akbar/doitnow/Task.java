@@ -4,6 +4,9 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow;
 //import android.arch.persistence.room.Entity;
 //import android.arch.persistence.room.PrimaryKey;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,7 +14,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity
-public class Task implements Serializable {
+public class Task implements Serializable, Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -40,6 +43,33 @@ public class Task implements Serializable {
     @ColumnInfo(name = "reminder")
     private boolean reminder;
 
+
+    protected Task(Parcel in) {
+        id = in.readInt();
+        task = in.readString();
+        desc = in.readString();
+        finishBy = in.readString();
+        finished = in.readByte() != 0;
+        category = in.readString();
+        userMail = in.readString();
+        filePath = in.readString();
+        reminder = in.readByte() != 0;
+    }
+
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
+
+    public Task() {
+    }
 
     /*
      * Getters and Setters
@@ -122,5 +152,23 @@ public class Task implements Serializable {
 
     public void setUserMail(String userMail) {
         this.userMail = userMail;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(task);
+        dest.writeString(desc);
+        dest.writeString(finishBy);
+        dest.writeByte((byte) (finished ? 1 : 0));
+        dest.writeString(category);
+        dest.writeString(userMail);
+        dest.writeString(filePath);
+        dest.writeByte((byte) (reminder ? 1 : 0));
     }
 }

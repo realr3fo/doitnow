@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp"
+    android:weightSum="100"
+    tools:context=".TodoListActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/category_menus"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/filter_by_category"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:text="List Categories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorLight"
+            android:textSize="10sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_button_add_category"
+            android:layout_height="28dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="28dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_add_black_10dp"
+            android:tint="@color/colorLight"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="mini" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/category_menus"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <FrameLayout
+            android:id="@+id/container_first"
+            android:layout_height="0dp"
+            android:layout_weight="0"
+            android:layout_width="match_parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_tasks"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="100"
+            android:layout_width="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/container_second"
+            android:layout_height="0dp"
+            android:layout_weight="0"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:id="@+id/floating_button_add_task"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_add"
+        android:tint="@color/colorLight"
+        app:fabSize="normal" />
+
+</RelativeLayout>
+

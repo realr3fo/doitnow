@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getEmail());
 
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid email or password", Toast.LENGTH_SHORT).show();
                     }

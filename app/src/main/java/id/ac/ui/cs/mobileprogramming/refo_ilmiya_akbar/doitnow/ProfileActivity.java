@@ -121,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, "Todo List", Toast.LENGTH_SHORT).show();
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
                         break;
                     default:
                         return true;

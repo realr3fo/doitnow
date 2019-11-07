@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 //        if the user is already logged in we will directly start the profile activity
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            startActivity(new Intent(this, TodoListActivity.class));
+            startActivity(new Intent(this, TaskActivityFragment.class));
             return;
         }
 
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //starting the profile activity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Some error occurred", Toast.LENGTH_SHORT).show();
                     }

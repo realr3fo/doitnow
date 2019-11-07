@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,6 +139,7 @@ public class AddTaskActivity extends AppCompatActivity {
         }
         return true;
     }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
@@ -191,7 +193,6 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
     }
-
 
 
     public void setUpAttachment() {
@@ -287,7 +288,9 @@ public class AddTaskActivity extends AppCompatActivity {
         Uri outputFileUri = null;
         File getImage = getExternalFilesDir("");
         if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "capture.png"));
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String fileName = timestamp + ".png";
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), fileName));
         }
         return outputFileUri;
     }
@@ -499,7 +502,7 @@ public class AddTaskActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-                startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
+                startActivity(new Intent(getApplicationContext(), TaskActivityFragment.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }
