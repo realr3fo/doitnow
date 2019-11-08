@@ -24,6 +24,7 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class CategoryListFragment extends Fragment {
     private CategoryListViewModel categoryListViewModel;
+
     public CategoryListFragment() {
         // Required empty public constructor
     }
@@ -33,6 +34,7 @@ public class CategoryListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         categoryListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(CategoryListViewModel.class);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class CategoryListFragment extends Fragment {
                 // Update the cached copy of the words in the adapter.
                 List<Category> filterizedCat = new ArrayList<>();
                 assert categories != null;
-                for (Category c: categories) {
+                for (Category c : categories) {
                     String userEmail = SharedPrefManager.getInstance(getActivity()).getUserEmail();
                     if (c.getUserMail().equalsIgnoreCase(userEmail)) {
                         filterizedCat.add(c);
@@ -56,9 +58,11 @@ public class CategoryListFragment extends Fragment {
         });
         return categoryListView;
     }
+
     private CategoryListAdapter adapter = null;
-    private void setAdapter(View view){
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.category_list);
+
+    private void setAdapter(View view) {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.category_list);
         adapter = new CategoryListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

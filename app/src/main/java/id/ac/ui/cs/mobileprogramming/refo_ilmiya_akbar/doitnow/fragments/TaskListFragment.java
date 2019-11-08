@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,41 +14,72 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.AddTaskActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskListActivity;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters.TasksAdapter;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.view_models.TaskListViewModel;
 
 public class TaskListFragment extends Fragment {
-    private FloatingActionButton buttonAddTask, buttonAddCategory;
-    private Button buttonFilterCategory;
     private RecyclerView recyclerView;
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle t;
-    private NavigationView nv;
+    private TaskListViewModel taskListViewModel;
+
+    public TaskListFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        taskListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TaskListViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View taskListView = inflater.inflate(R.layout.fragment_task_list, container, false);
+        setAdapter(taskListView);
+        taskListViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(@Nullable final List<Task> tasks) {
+                // Update the cached copy of the words in the adapter.
+                List<Task> filteredTasks = new ArrayList<>();
+                assert tasks != null;
+                for (Task t : tasks) {
+                    String userEmail = SharedPrefManager.getInstance(getActivity()).getUserEmail();
+                    if (t.getUserMail().equalsIgnoreCase(userEmail)) {
+                        filteredTasks.add(t);
+                    }
+                }
+                adapter.setWords(filteredTasks);
+            }
+        });
+        return taskListView;
+    }
 
-        return inflater.inflate(R.layout.fragment_task_list, container, false);
+    private TasksAdapter adapter = null;
 
+    private void setAdapter(View view) {
+        recyclerView = view.findViewById(R.id.recyclerview_tasks);
+        adapter = new TasksAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
@@ -60,10 +89,8 @@ public class TaskListFragment extends Fragment {
         if (view != null) {
             ((TaskListActivity) getActivity()).setUpNavbar();
 
-            recyclerView = view.findViewById(R.id.recyclerview_tasks);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            buttonAddTask = view.findViewById(R.id.floating_button_add_task);
+            FloatingActionButton buttonAddTask = view.findViewById(R.id.floating_button_add_task);
             buttonAddTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -72,15 +99,13 @@ public class TaskListFragment extends Fragment {
                 }
             });
 
-            getTasks();
-
 
             getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById(R.id.container_first).getId(), new CategoryListFragment()).commit();
             getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById(R.id.container_second).getId(), new CategoryInfoFragment()).commit();
 
 
             final SharedPreferences prefs = getActivity().getSharedPreferences("doitnowsharedpref", Context.MODE_PRIVATE);
-            buttonFilterCategory = view.findViewById(R.id.filter_by_category);
+            Button buttonFilterCategory = view.findViewById(R.id.filter_by_category);
             buttonFilterCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,7 +118,7 @@ public class TaskListFragment extends Fragment {
                     adjustLayoutWeights();
                 }
             });
-            buttonAddCategory = view.findViewById(R.id.floating_button_add_category);
+            FloatingActionButton buttonAddCategory = view.findViewById(R.id.floating_button_add_category);
             buttonAddCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,11 +132,10 @@ public class TaskListFragment extends Fragment {
                 }
             });
             adjustLayoutWeights();
-            // load task list data
         }
     }
 
-    public void adjustLayoutWeights() {
+    private void adjustLayoutWeights() {
         View view = getView();
         SharedPreferences prefs = getActivity().getSharedPreferences("doitnowsharedpref", Context.MODE_PRIVATE);
         boolean btnFilterCatState = prefs.getBoolean("btnFilterCat", false);
@@ -187,52 +211,5 @@ public class TaskListFragment extends Fragment {
         super.onAttach(context);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (t.onOptionsItemSelected(item))
-            return true;
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void getTasks() {
-        class GetTasks extends AsyncTask<Void, Void, List<Task>> {
-
-            @Override
-            protected List<Task> doInBackground(Void... voids) {
-                List<Task> taskList = DatabaseClient
-                        .getInstance(GlobalApplication.getAppContext())
-                        .getAppDatabase()
-                        .taskDao()
-                        .getAll();
-                List<Task> filterizedTask = new ArrayList<>();
-                assert taskList != null;
-                for (Task t: taskList) {
-                    String userEmail = SharedPrefManager.getInstance(getActivity()).getUserEmail();
-                    if (t.getUserMail().equalsIgnoreCase(userEmail)) {
-                        filterizedTask.add(t);
-                    }
-                }
-                return filterizedTask;
-            }
-
-            @Override
-            protected void onPostExecute(List<Task> tasks) {
-                super.onPostExecute(tasks);
-                TasksAdapter adapter = new TasksAdapter(getActivity(), tasks);
-                recyclerView.setAdapter(adapter);
-            }
-        }
-
-        GetTasks gt = new GetTasks();
-        gt.execute();
-    }
-
-
-//    @Override
-//    public void onListItemClick(ListView listView, View itemView, int position, long id) {
-//        if (listener != null) {
-//            listener.itemClicked(id);
-//        }
-//    }
 }

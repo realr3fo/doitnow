@@ -29,7 +29,8 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(CategoryListViewModel.class);
+        categoryListViewModel = ViewModelProviders
+                .of(Objects.requireNonNull(getActivity())).get(CategoryListViewModel.class);
     }
 
     @Override

@@ -19,7 +19,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -44,10 +43,10 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Category;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.services.service;
 
@@ -291,7 +290,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Uri outputFileUri = null;
         File getImage = getExternalFilesDir("");
         if (this.fileName.equals("")) {
-            long tsLong = System.currentTimeMillis()/1000;
+            long tsLong = System.currentTimeMillis() / 1000;
             this.fileName = String.valueOf(tsLong);
         }
         if (getImage != null) {
@@ -508,7 +507,7 @@ public class AddTaskActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-                startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+//                startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }

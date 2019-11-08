@@ -25,6 +25,7 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Your Tasks");
+        // this one determines what orientation the device is
         setContentView(R.layout.activity_task_list);
     }
 

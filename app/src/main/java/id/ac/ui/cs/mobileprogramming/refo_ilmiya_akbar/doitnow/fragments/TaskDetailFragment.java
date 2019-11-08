@@ -2,7 +2,6 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -16,10 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.RegistrationActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskDetailActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
@@ -139,9 +139,7 @@ public class TaskDetailFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getActivity(), "Updated", Toast.LENGTH_LONG).show();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), RegistrationActivity.class));
+                Toast.makeText(getActivity(), "Task Finished", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -164,8 +162,12 @@ public class TaskDetailFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), RegistrationActivity.class));
+                if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
+                    getActivity().onBackPressed();
+                } else {
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .remove(TaskDetailFragment.this).commit();
+                }
             }
         }
 

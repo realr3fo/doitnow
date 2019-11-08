@@ -2,6 +2,7 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.daos;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,4 +25,6 @@ public interface TaskDao {
     @Update
     void update(Task task);
 
+    @Query("SELECT * from task ORDER BY id ASC")
+    LiveData<List<Task>> getAllLiveTask();
 }

@@ -22,36 +22,10 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> {
 
-    private Context mCtx;
-    private List<Task> taskList;
-
-    public TasksAdapter(Context mCtx, List<Task> taskList) {
-        this.mCtx = mCtx;
-        this.taskList = taskList;
-    }
-
-    @Override
-    public TasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.recyclerview_tasks, parent, false);
-        return new TasksViewHolder(binding);
-    }
-
-    @Override
-    public void onBindViewHolder(TasksViewHolder holder, int position) {
-        Task t = taskList.get(position);
-        holder.bind(t);
-    }
-
-    @Override
-    public int getItemCount() {
-        return taskList.size();
-    }
-
     class TasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ViewDataBinding binding;
 
-        public TasksViewHolder(ViewDataBinding binding) {
+        TasksViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -59,8 +33,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Object obj) {
-            binding.setVariable(id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.BR.task,obj);
+        void bind(Object obj) {
+            binding.setVariable(id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.BR.task, obj);
             binding.executePendingBindings();
         }
 
@@ -70,18 +44,55 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
             View fragmentContainer = ((TaskListActivity) mCtx).findViewById(R.id.fragment_container);
             if (fragmentContainer != null) {
                 TaskDetailFragment details = new TaskDetailFragment();
-                FragmentTransaction ft = ((TaskListActivity) mCtx).getSupportFragmentManager().beginTransaction();
+                FragmentTransaction ft = ((TaskListActivity) mCtx)
+                        .getSupportFragmentManager().beginTransaction();
                 details.setTask(task);
                 ft.replace(R.id.fragment_container, details);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.addToBackStack(null);
                 ft.commit();
-            }
-            else {
+            } else {
                 Intent intent = new Intent(mCtx, TaskDetailActivity.class);
                 intent.putExtra(TaskDetailActivity.EXTRA_TASK, (Parcelable) task);
                 mCtx.startActivity(intent);
             }
         }
     }
+
+    private Context mCtx;
+    private List<Task> taskList;
+
+    public TasksAdapter(Context mCtx) {
+        this.mCtx = mCtx;
+
+    }
+
+    @Override
+    public TasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater,
+                R.layout.recyclerview_tasks, parent, false);
+        return new TasksViewHolder(binding);
+    }
+
+    @Override
+    public void onBindViewHolder(TasksViewHolder holder, int position) {
+        Task t = taskList.get(position);
+        holder.bind(t);
+    }
+
+    public void setWords(List<Task> tasks) {
+        taskList = tasks;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        if (taskList != null) {
+            return taskList.size();
+        } else {
+            return 0;
+        }
+    }
+
 }
