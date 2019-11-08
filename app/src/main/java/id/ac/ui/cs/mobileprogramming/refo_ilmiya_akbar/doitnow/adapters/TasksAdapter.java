@@ -2,7 +2,6 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-//import android.support.v7.widget.RecyclerView;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;

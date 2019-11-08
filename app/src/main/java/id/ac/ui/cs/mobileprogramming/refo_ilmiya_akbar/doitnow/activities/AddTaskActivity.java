@@ -268,6 +268,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 String filePath = getImageFilePath(data);
                 textFileName.setText(String.format("%s.png", this.fileName));
+                attachmentFilePath = filePath;
                 Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
                 imageView.setImageBitmap(selectedImage);
             }
