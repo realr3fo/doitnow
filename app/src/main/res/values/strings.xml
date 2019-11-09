@@ -43,5 +43,6 @@
     <string name="date_changed_broadcast">You have changed your date, please check your tasks due time</string>
     <string name="complete_task">Completed</string>
     <string name="not_complete_task">Not Completed</string>
+    <string name="is_due">is due!</string>
 
 </resources>

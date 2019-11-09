@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -30,7 +31,7 @@ public class RequestHandler {
             OutputStream os = conn.getOutputStream();
 
             BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
+                    new OutputStreamWriter(os, StandardCharsets.UTF_8));
             JSONObject obj = new JSONObject(postDataParams);
             writer.write(obj.toString());
 
