@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorPrimaryDark"
-                    android:text="@{task.completed()}"
+                    android:text="@{task.isFinished() ? @string/complete_task : @string/not_complete_task }"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorLight"
                     android:textStyle="bold" />

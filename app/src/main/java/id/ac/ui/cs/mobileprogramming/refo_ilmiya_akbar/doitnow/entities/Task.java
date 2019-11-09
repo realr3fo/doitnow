@@ -3,13 +3,11 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
-
-import java.io.Serializable;
 
 @Entity
 public class Task implements Serializable, Parcelable {
@@ -68,7 +66,7 @@ public class Task implements Serializable, Parcelable {
 
     public Task() {
     }
-    
+
     public int getId() {
         return id;
     }
@@ -111,14 +109,6 @@ public class Task implements Serializable, Parcelable {
 
     public String getCategory() {
         return category;
-    }
-
-    public String completed() {
-        if (this.isFinished()) {
-            return GlobalApplication.getAppContext().getString(R.string.complete_task);
-        } else {
-            return GlobalApplication.getAppContext().getString(R.string.not_complete_task);
-        }
     }
 
     public void setCategory(String category) {
