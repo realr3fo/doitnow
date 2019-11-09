@@ -49,7 +49,6 @@ public class TaskDetailFragment extends Fragment {
         super.onStart();
         View view = getView();
         if (view != null) {
-            Objects.requireNonNull(getActivity()).setTitle(R.string.title_task_detail);
 
             if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
 

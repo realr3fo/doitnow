@@ -15,6 +15,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.title_task_detail);
         setContentView(R.layout.activity_task_detail_fragment);
         TaskDetailFragment frag = (TaskDetailFragment)
                 getSupportFragmentManager().findFragmentById(R.id.task_detail_frag);
