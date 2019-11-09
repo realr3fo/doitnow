@@ -73,4 +73,5 @@
     <string name="my_profile">Mi perfil</string>
     <string name="save_category">Guardar Categoría</string>
     <string name="to_do_list">Lista De Quehaceres</string>
+    <string name="password_constraint">La longitud de la contraseña debe tener al menos 6 caracteres.</string>
 </resources>

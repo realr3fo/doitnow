@@ -43,15 +43,15 @@ public class CategoryListFragment extends Fragment {
         categoryListViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(@Nullable final List<Category> categories) {
-                List<Category> filterizedCat = new ArrayList<>();
+                List<Category> filteredCat = new ArrayList<>();
                 assert categories != null;
                 for (Category c : categories) {
                     String userEmail = SharedPrefManager.getInstance(getActivity()).getUserEmail();
                     if (c.getUserMail().equalsIgnoreCase(userEmail)) {
-                        filterizedCat.add(c);
+                        filteredCat.add(c);
                     }
                 }
-                adapter.setWords(filterizedCat);
+                adapter.setWords(filteredCat);
             }
         });
         return categoryListView;

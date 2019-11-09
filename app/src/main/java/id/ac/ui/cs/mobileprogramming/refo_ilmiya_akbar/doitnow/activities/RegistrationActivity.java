@@ -96,6 +96,12 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
+        if (password.length() < 6) {
+            editTextPassword.setError(getString(R.string.password_constraint));
+            editTextPassword.requestFocus();
+            return;
+        }
+
         class RegisterUser extends AsyncTask<Void, Void, String> {
 
             private ProgressBar progressBar;

@@ -72,5 +72,6 @@
     <string name="list_categories">List Categories</string>
     <string name="my_profile">My Profile</string>
     <string name="to_do_list">To Do List</string>
+    <string name="password_constraint">Password length should consist of at least 6 characters</string>
 
 </resources>

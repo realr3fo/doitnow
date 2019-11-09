@@ -166,8 +166,8 @@ public class TaskListFragment extends Fragment {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (btnFilterCatState && btnAddCatState) {
                 taskListWeight = 60;
-                containerSecondWeight = 25;
-                containerFirstWeight = 15;
+                containerFirstWeight = 25;
+                containerSecondWeight = 15;
             } else if (btnFilterCatState) {
                 taskListWeight = 75;
                 containerFirstWeight = 25;
