@@ -35,17 +35,16 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.view_models.TaskListViewModel;
 
 public class TaskListFragment extends Fragment {
-    private RecyclerView recyclerView;
     private TaskListViewModel taskListViewModel;
 
     public TaskListFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        taskListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TaskListViewModel.class);
+        taskListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()))
+                .get(TaskListViewModel.class);
     }
 
     @Override
@@ -56,7 +55,6 @@ public class TaskListFragment extends Fragment {
         taskListViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable final List<Task> tasks) {
-                // Update the cached copy of the words in the adapter.
                 List<Task> filteredTasks = new ArrayList<>();
                 assert tasks != null;
                 for (Task t : tasks) {
@@ -74,7 +72,7 @@ public class TaskListFragment extends Fragment {
     private TasksAdapter adapter = null;
 
     private void setAdapter(View view) {
-        recyclerView = view.findViewById(R.id.recyclerview_tasks);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_tasks);
         adapter = new TasksAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -85,7 +83,7 @@ public class TaskListFragment extends Fragment {
         super.onStart();
         View view = getView();
         if (view != null) {
-            ((TaskListActivity) getActivity()).setUpNavBar();
+            ((TaskListActivity) Objects.requireNonNull(getActivity())).setUpNavBar();
 
 
             FloatingActionButton buttonAddTask = view.findViewById(R.id.floating_button_add_task);
@@ -98,11 +96,14 @@ public class TaskListFragment extends Fragment {
             });
 
 
-            getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById(R.id.container_first).getId(), new CategoryListFragment()).commit();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById(R.id.container_second).getId(), new CategoryInfoFragment()).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById
+                    (R.id.container_first).getId(), new CategoryListFragment()).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(view.findViewById
+                    (R.id.container_second).getId(), new CategoryInfoFragment()).commit();
 
 
-            final SharedPreferences prefs = getActivity().getSharedPreferences("doitnowsharedpref", Context.MODE_PRIVATE);
+            final SharedPreferences prefs = getActivity().getSharedPreferences
+                    ("doitnowsharedpref", Context.MODE_PRIVATE);
             Button buttonFilterCategory = view.findViewById(R.id.filter_by_category);
             buttonFilterCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,21 +136,25 @@ public class TaskListFragment extends Fragment {
 
     private void adjustLayoutWeights() {
         View view = getView();
-        SharedPreferences prefs = getActivity().getSharedPreferences("doitnowsharedpref", Context.MODE_PRIVATE);
+        SharedPreferences prefs = Objects.requireNonNull(getActivity())
+                .getSharedPreferences("doitnowsharedpref", Context.MODE_PRIVATE);
         boolean btnFilterCatState = prefs.getBoolean("btnFilterCat", false);
         if (btnFilterCatState) {
-            (view.findViewById(R.id.filter_by_category)).setBackgroundColor(getResources().getColor(R.color.colorRed));
+            (Objects.requireNonNull(view).findViewById(R.id.filter_by_category))
+                    .setBackgroundColor(getResources().getColor(R.color.colorRed));
         } else {
-            (view.findViewById(R.id.filter_by_category)).setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            (Objects.requireNonNull(view).findViewById(R.id.filter_by_category))
+                    .setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         }
         boolean btnAddCatState = prefs.getBoolean("btnAddCat", false);
         if (btnAddCatState) {
             (view.findViewById(R.id.floating_button_add_category))
-                    .setBackgroundTintList(ContextCompat.getColorStateList(GlobalApplication.getAppContext(), R.color.colorRed));
+                    .setBackgroundTintList(ContextCompat.getColorStateList(GlobalApplication
+                            .getAppContext(), R.color.colorRed));
         } else {
             (view.findViewById(R.id.floating_button_add_category))
-                    .setBackgroundTintList(ContextCompat.getColorStateList(GlobalApplication.getAppContext(), R.color.colorPrimaryDark));
-            ;
+                    .setBackgroundTintList(ContextCompat.getColorStateList(GlobalApplication
+                            .getAppContext(), R.color.colorPrimaryDark));
         }
         RecyclerView taskList = view.findViewById(R.id.recyclerview_tasks);
         FrameLayout containerSecond = view.findViewById(R.id.container_second);

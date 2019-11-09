@@ -44,5 +44,11 @@
     <string name="complete_task">Completed</string>
     <string name="not_complete_task">Not Completed</string>
     <string name="is_due">is due!</string>
+    <string name="ask_category">Please fill in the category name</string>
+    <string name="title_task_detail">Task Detail</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="none">None</string>
 
 </resources>

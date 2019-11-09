@@ -23,7 +23,6 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
     private CategoryListViewModel categoryListViewModel;
 
     public CategoryInfoFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -36,7 +35,6 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View categoryInfoView = inflater.inflate(R.layout.fragment_category_info, container, false);
         initViews(categoryInfoView);
         return categoryInfoView;
@@ -70,7 +68,7 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
             categoryListViewModel.insert(category);
             categoryName.setText("");
         } else {
-            Toast.makeText(getActivity(), "Please fill in the category name",
+            Toast.makeText(getActivity(), R.string.ask_category,
                     Toast.LENGTH_LONG).show();
         }
     }

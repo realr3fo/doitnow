@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -26,7 +25,8 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
 
 public class TaskDetailFragment extends Fragment {
     private Task task;
-    private TextView textViewTaskName, textViewTaskCategory, textViewTaskDesc, textViewTaskDueDate, textViewTaskAttachments;
+    private TextView textViewTaskName, textViewTaskCategory, textViewTaskDesc,
+            textViewTaskDueDate, textViewTaskAttachments;
     private CheckBox checkBoxFinished;
     private ImageView imageView;
 
@@ -49,9 +49,8 @@ public class TaskDetailFragment extends Fragment {
         super.onStart();
         View view = getView();
         if (view != null) {
-            getActivity().setTitle("Task Detail");
+            Objects.requireNonNull(getActivity()).setTitle(R.string.title_task_detail);
 
-            // Back Button
             if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
 
                 ((TaskDetailActivity) getActivity()).setUpBackButton();
@@ -64,9 +63,7 @@ public class TaskDetailFragment extends Fragment {
             checkBoxFinished = view.findViewById(R.id.checkBoxFinished);
             imageView = view.findViewById(R.id.task_detail_image_view);
 
-            // load task detail data
             final Task task = this.task;
-
 
             loadTask(task);
 
@@ -81,15 +78,16 @@ public class TaskDetailFragment extends Fragment {
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Are you sure?");
-                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(
+                                Objects.requireNonNull(getActivity()));
+                        builder.setTitle(getString(R.string.are_you_sure));
+                        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 deleteTask(task);
                             }
                         });
-                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -117,7 +115,7 @@ public class TaskDetailFragment extends Fragment {
             imageView.setImageBitmap(selectedImage);
             textViewTaskAttachments.setText(fileName);
         } else {
-            textViewTaskAttachments.setText("None");
+            textViewTaskAttachments.setText(R.string.none);
         }
         checkBoxFinished.setChecked(task.isFinished());
     }
@@ -162,7 +160,7 @@ public class TaskDetailFragment extends Fragment {
                 if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
                     getActivity().onBackPressed();
                 } else {
-                    getActivity().getSupportFragmentManager().beginTransaction()
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                             .remove(TaskDetailFragment.this).commit();
                 }
             }

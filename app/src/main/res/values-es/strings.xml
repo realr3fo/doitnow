@@ -45,4 +45,10 @@
     <string name="complete_task">Terminado</string>
     <string name="not_complete_task">Sin Completar</string>
     <string name="is_due">se debe</string>
+    <string name="are_you_sure">¿Estás seguro?</string>
+    <string name="ask_category">Por favor complete el nombre de la categoría</string>
+    <string name="no">No</string>
+    <string name="none">Ninguno</string>
+    <string name="title_task_detail">Detalle de tarea</string>
+    <string name="yes">Si</string>
 </resources>
