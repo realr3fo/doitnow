@@ -51,4 +51,26 @@
     <string name="none">Ninguno</string>
     <string name="title_task_detail">Detalle de tarea</string>
     <string name="yes">Si</string>
+    <string name="ask_description">Ingrese la descripción de su tarea</string>
+    <string name="ask_task_name">Ingrese el nombre de su tarea</string>
+    <string name="attachments">Archivos adjuntos</string>
+    <string name="category">Categoría</string>
+    <string name="date">Fecha</string>
+    <string name="description">Descripción</string>
+    <string name="due_date">Fecha de vencimiento</string>
+    <string name="reminder">Recordatorio</string>
+    <string name="save">Salvar</string>
+    <string name="task_name">Nombre de la tarea</string>
+    <string name="time">Hora</string>
+    <string name="date_and_time">Fecha y Hora</string>
+    <string name="delete">Eliminar</string>
+    <string name="english_language">Idioma en Inglés</string>
+    <string name="mark_as_finished">Marcar como Terminado</string>
+    <string name="spanish_language">Lengua Española</string>
+    <string name="category_list">Lista de categoría</string>
+    <string name="hint_category">Ingrese el nombre de la categoría</string>
+    <string name="list_categories">Categorías de lista</string>
+    <string name="my_profile">Mi perfil</string>
+    <string name="save_category">Guardar Categoría</string>
+    <string name="to_do_list">Lista De Quehaceres</string>
 </resources>

@@ -50,5 +50,27 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="none">None</string>
+    <string name="task_name">Task Name</string>
+    <string name="ask_task_name">Enter your task name</string>
+    <string name="category">Category</string>
+    <string name="description">Description</string>
+    <string name="ask_description">Enter your task description</string>
+    <string name="due_date">Due Date</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="reminder">Reminder</string>
+    <string name="attachments">Attachments</string>
+    <string name="save">Save</string>
+    <string name="english_language">English Language</string>
+    <string name="spanish_language">Spanish Language</string>
+    <string name="mark_as_finished">Mark as Finished</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="delete">Delete</string>
+    <string name="hint_category">Enter Category Name</string>
+    <string name="save_category">Save Category</string>
+    <string name="category_list">Category List</string>
+    <string name="list_categories">List Categories</string>
+    <string name="my_profile">My Profile</string>
+    <string name="to_do_list">To Do List</string>
 
 </resources>

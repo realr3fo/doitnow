@@ -36,7 +36,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 </TableRow>
@@ -55,7 +54,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="probelalkhan"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 </TableRow>
@@ -74,7 +72,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="probelalkhan@gmail.com"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 </TableRow>
@@ -93,7 +90,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Male"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 </TableRow>
@@ -111,13 +107,13 @@
                 android:id="@+id/buttonEnglish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="English Language" />
+                android:text="@string/english_language" />
 
             <Button
                 android:id="@+id/buttonSpanish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Spanish Language" />
+                android:text="@string/spanish_language" />
         </LinearLayout>
 
     </RelativeLayout>

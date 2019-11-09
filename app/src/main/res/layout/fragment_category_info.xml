@@ -7,15 +7,15 @@
     tools:context=".fragments.CategoryInfoFragment">
 
     <EditText
+        android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/category_name"
-        android:hint="Enter Category Name"/>
+        android:hint="@string/hint_category" />
 
     <Button
+        android:id="@+id/save_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/save_info"
-        android:text="Save Category"/>
+        android:text="@string/save_category" />
 
 </LinearLayout>

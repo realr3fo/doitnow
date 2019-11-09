@@ -5,18 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.CategoryListFragment">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@android:color/white"
-        android:text="Category List"
         android:layout_margin="5dp"
-        android:background="@color/colorPrimaryDark"/>
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/category_list"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/category_list">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 

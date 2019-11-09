@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".activities.AddTaskActivity">
 
         <LinearLayout
@@ -20,19 +19,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task Name"
+                android:text="@string/task_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <EditText
                 android:id="@+id/editTextTask"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your task name" />
+                android:hint="@string/ask_task_name" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <Spinner
@@ -53,19 +52,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="@string/description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <EditText
                 android:id="@+id/editTextDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your task description" />
+                android:hint="@string/ask_description" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Due Date"
+                android:text="@string/due_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <EditText
@@ -74,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="Date"
+                android:hint="@string/date"
                 android:inputType="none" />
 
             <EditText
@@ -83,14 +82,14 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="false"
-                android:hint="Time"
+                android:hint="@string/time"
                 android:inputType="none" />
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reminder"
+                android:text="@string/reminder"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <Switch
@@ -101,7 +100,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Attachments"
+                android:text="@string/attachments"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <LinearLayout
@@ -163,7 +162,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:background="@color/colorPrimary"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="@color/colorLight" />
 
