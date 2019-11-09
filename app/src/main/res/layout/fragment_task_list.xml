@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:id="@+id/category_menus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/filter_by_category"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/list_categories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorLight"
+            android:textSize="12sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_button_add_category"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="5dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_add_black_10dp"
+            android:tint="@color/colorLight"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="mini" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/category_menus"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <FrameLayout
+            android:id="@+id/container_first"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="100" />
+
+        <FrameLayout
+            android:id="@+id/container_second"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:src="@drawable/ic_add"
+        android:tint="@color/colorLight"
+        app:fabSize="normal" />
+
+</RelativeLayout>
+

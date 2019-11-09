@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="task"
+            type="id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/textViewStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="@{task.isFinished() ? @string/complete_task : @string/not_complete_task }"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorLight"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{task.getTask()}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+
+
+                <TextView
+                    android:id="@+id/textViewFinishBy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{task.getFinishBy()}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>
