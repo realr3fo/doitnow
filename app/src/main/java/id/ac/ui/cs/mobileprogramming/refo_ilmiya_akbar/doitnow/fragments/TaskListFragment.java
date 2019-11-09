@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,6 @@ import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.AddTaskActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities.TaskListActivity;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.adapters.TasksAdapter;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.Task;
 import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.view_models.TaskListViewModel;
 
@@ -87,7 +85,7 @@ public class TaskListFragment extends Fragment {
         super.onStart();
         View view = getView();
         if (view != null) {
-            ((TaskListActivity) getActivity()).setUpNavbar();
+            ((TaskListActivity) getActivity()).setUpNavBar();
 
 
             FloatingActionButton buttonAddTask = view.findViewById(R.id.floating_button_add_task);

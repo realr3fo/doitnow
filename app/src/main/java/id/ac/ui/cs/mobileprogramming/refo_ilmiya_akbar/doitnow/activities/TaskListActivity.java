@@ -3,7 +3,6 @@ package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -24,8 +23,7 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Your Tasks");
-        // this one determines what orientation the device is
+        setTitle(R.string.task_list_title);
         setContentView(R.layout.activity_task_list);
     }
 
@@ -37,7 +35,7 @@ public class TaskListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setUpNavbar() {
+    public void setUpNavBar() {
         DrawerLayout dl = findViewById(R.id.activity_todo);
         t = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
 
@@ -46,20 +44,19 @@ public class TaskListActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        NavigationView nv = (NavigationView) findViewById(R.id.nv);
+        NavigationView nv = findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.profile:
-                        Toast.makeText(TaskListActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        //starting the profile activity
                         finish();
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         break;
                     case R.id.todolist:
-                        Toast.makeText(TaskListActivity.this, "To Do List", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TaskListActivity.this, R.string.already_in_task_list,
+                                Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         return true;

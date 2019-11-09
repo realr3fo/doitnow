@@ -20,9 +20,12 @@ public class service extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
         final int pid = startId;
         final long interval = intent.getLongExtra("interval", -1);
+        if (interval <= 0) {
+            stopSelfResult(pid);
+            return START_STICKY;
+        }
         final String taskName = intent.getStringExtra("taskName");
         // Execute an action after period time
         timer.schedule(new TimerTask() {
@@ -30,7 +33,6 @@ public class service extends Service {
                 @Override
                 public void dispatchMessage(Message msg) {
                     super.dispatchMessage(msg);
-
                     Toast.makeText(getApplicationContext(), taskName + " is due!", Toast.LENGTH_SHORT).show();
                 }
             };

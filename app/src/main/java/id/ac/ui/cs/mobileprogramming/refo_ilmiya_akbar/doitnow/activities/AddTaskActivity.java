@@ -40,6 +40,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,11 +82,9 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        setTitle("Create Your Task");
+        setTitle(R.string.task_title);
 
-
-        // Back Button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         editTextTask = findViewById(R.id.editTextTask);
@@ -97,12 +96,9 @@ public class AddTaskActivity extends AppCompatActivity {
         textFileName = findViewById(R.id.task_image_file_name);
         attachmentFilePath = "";
 
-        ImageView taskImageView = findViewById(R.id.task_image_view);
-
         getCategories();
         setUpDueTime();
         setUpAttachment();
-
 
         findViewById(R.id.button_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,20 +112,19 @@ public class AddTaskActivity extends AppCompatActivity {
         permissions.add(READ_EXTERNAL_STORAGE);
         permissionsToRequest = findUnAskedPermissions(permissions);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-
             if (permissionsToRequest.size() > 0)
-                requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+                requestPermissions(permissionsToRequest
+                        .toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
     }
 
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
 
         for (String perm : wanted) {
-            if (!hasPermission(perm)) {
+            if (hasPermission(perm)) {
                 result.add(perm);
             }
         }
@@ -140,17 +135,17 @@ public class AddTaskActivity extends AppCompatActivity {
     private boolean hasPermission(String permission) {
         if (canMakeSmores()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+                return (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED);
             }
         }
-        return true;
+        return false;
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
+                .setMessage(getString(R.string.permission_mandatory))
+                .setPositiveButton(getString(R.string.okay), okListener)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create()
                 .show();
     }
@@ -164,38 +159,27 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        switch (requestCode) {
-
-            case ALL_PERMISSIONS_RESULT:
-                for (String perms : permissionsToRequest) {
-                    if (!hasPermission(perms)) {
-                        permissionsRejected.add(perms);
+        if (requestCode == ALL_PERMISSIONS_RESULT) {
+            for (String perms : permissionsToRequest) {
+                if (hasPermission(perms)) {
+                    permissionsRejected.add(perms);
+                }
+            }
+            if (permissionsRejected.size() > 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                        showMessageOKCancel(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(permissionsRejected
+                                                .toArray(new String[permissionsRejected.size()]),
+                                        ALL_PERMISSIONS_RESULT);
+                            }
+                        });
                     }
                 }
 
-                if (permissionsRejected.size() > 0) {
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
-                                                requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
-                                        }
-                                    });
-                            return;
-                        }
-                    }
-
-                }
-
-                break;
+            }
         }
 
     }
@@ -219,7 +203,8 @@ public class AddTaskActivity extends AppCompatActivity {
         PackageManager packageManager = getPackageManager();
 
         Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo res : listCam) {
             Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
@@ -232,7 +217,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo res : listGallery) {
             Intent intent = new Intent(galleryIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
@@ -242,15 +228,17 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Intent mainIntent = allIntents.get(allIntents.size() - 1);
         for (Intent intent : allIntents) {
-            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+            if (Objects.requireNonNull(intent.getComponent()).getClassName()
+                    .equals("com.android.documentsui.DocumentsActivity")) {
                 mainIntent = intent;
                 break;
             }
         }
         allIntents.remove(mainIntent);
 
-        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+        Intent chooserIntent = Intent.createChooser(mainIntent, getString(R.string.select_source));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents
+                .toArray(new Parcelable[allIntents.size()]));
 
         return chooserIntent;
     }
@@ -262,7 +250,6 @@ public class AddTaskActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
 
             ImageView imageView = findViewById(R.id.task_image_view);
-
 
             if (requestCode == IMAGE_RESULT) {
 
@@ -304,14 +291,15 @@ public class AddTaskActivity extends AppCompatActivity {
     private String getPathFromURI(Uri contentUri) {
         String[] proj = {MediaStore.Audio.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        int column_index = Objects.requireNonNull(cursor).
+                getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
 
     public void setUpDueTime() {
-        text_date = (EditText) findViewById(R.id.editTextDate);
-        text_hour = (EditText) findViewById(R.id.editTextTime);
+        text_date = findViewById(R.id.editTextDate);
+        text_hour = findViewById(R.id.editTextTime);
 
         myCalendar = Calendar.getInstance();
         date = new DatePickerDialog.OnDateSetListener() {
@@ -329,9 +317,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddTaskActivity.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog
+                        (AddTaskActivity.this, date, myCalendar
+                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
             }
@@ -343,7 +332,7 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String sDate = editTextDate.getText().toString().trim();
                 if (sDate.isEmpty()) {
-                    editTextDate.setError("Date required");
+                    editTextDate.setError(getString(R.string.date_required));
                     editTextDate.requestFocus();
                     return;
                 }
@@ -352,45 +341,45 @@ public class AddTaskActivity extends AppCompatActivity {
                 int minute = mcurrentTime.get(Calendar.MINUTE);
 
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(AddTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        Calendar datetime = Calendar.getInstance();
-                        Calendar c = Calendar.getInstance();
-                        datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        datetime.set(Calendar.MINUTE, selectedMinute);
-                        // check if its current date, the time is free
-                        boolean dateAfterToday = false;
-                        try {
-                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                            Date dueDate = formatter.parse(sDate);
-                            Date today = datetime.getTime();
-                            if (dueDate.after(today)) {
-                                dateAfterToday = true;
+                mTimePicker = new TimePickerDialog(AddTaskActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour,
+                                                  int selectedMinute) {
+                                Calendar datetime = Calendar.getInstance();
+                                Calendar c = Calendar.getInstance();
+                                datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                datetime.set(Calendar.MINUTE, selectedMinute);
+                                boolean dateAfterToday = false;
+                                try {
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date dueDate = formatter.parse(sDate);
+                                    Date today = datetime.getTime();
+                                    if (dueDate.after(today)) {
+                                        dateAfterToday = true;
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (!dateAfterToday) {
+                                    if (datetime.getTimeInMillis() > c.getTimeInMillis()) {
+                                        //it's after current
+                                        String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+                                        text_hour.setText(time);
+                                    } else {
+                                        //it's before current'
+                                        Toast.makeText(getApplicationContext(), "Invalid Time",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+                                    text_hour.setText(time);
+                                }
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (!dateAfterToday) {
-                            if (datetime.getTimeInMillis() >= c.getTimeInMillis()) {
-                                //it's after current
-                                String time = String.format("%02d:%02d", selectedHour, selectedMinute);
-                                text_hour.setText(time);
-                            } else {
-                                //it's before current'
-                                Toast.makeText(getApplicationContext(), "Invalid Time", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            String time = String.format("%02d:%02d", selectedHour, selectedMinute);
-                            text_hour.setText(time);
-                        }
-                    }
-                }, hour, minute, true);//Yes 24 hour time
+                        }, hour, minute, true);
 
-                mTimePicker.setTitle("Select Time");
+                mTimePicker.setTitle(getString(R.string.select_time));
                 mTimePicker.show();
-
             }
         });
     }
@@ -422,18 +411,17 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(List<Category> categories) {
                 super.onPostExecute(categories);
-                List<String> listSpinner = new ArrayList<String>();
-                listSpinner.add("default");
+                List<String> listSpinner = new ArrayList<>();
+                listSpinner.add(getString(R.string.default_cat));
                 for (int i = 0; i < categories.size(); i++) {
                     listSpinner.add(categories.get(i).getName());
                 }
                 String[] arraySpinner = new String[listSpinner.size()];
                 listSpinner.toArray(arraySpinner);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTaskActivity.this,
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(AddTaskActivity.this,
                         android.R.layout.simple_spinner_item, arraySpinner);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCategory.setAdapter(adapter);
-                Toast.makeText(AddTaskActivity.this, "Success Get Categories", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -452,25 +440,25 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
         if (sTask.isEmpty()) {
-            editTextTask.setError("Task required");
+            editTextTask.setError(getString(R.string.task_required));
             editTextTask.requestFocus();
             return;
         }
 
         if (sDesc.isEmpty()) {
-            editTextDesc.setError("Desc required");
+            editTextDesc.setError(getString(R.string.desc_required));
             editTextDesc.requestFocus();
             return;
         }
 
         if (sDate.isEmpty()) {
-            editTextDate.setError("Date required");
+            editTextDate.setError(getString(R.string.date_required));
             editTextDate.requestFocus();
             return;
         }
 
         if (sTime.isEmpty()) {
-            editTextTime.setError("Time required");
+            editTextTime.setError(getString(R.string.time_required));
             editTextTime.requestFocus();
             return;
         }
@@ -486,7 +474,6 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... voids) {
 
-                //creating a task
                 Task task = new Task();
                 task.setTask(sTask);
                 task.setDesc(sDesc);
@@ -497,7 +484,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setUserMail(SharedPrefManager.getInstance(AddTaskActivity.this).getUserEmail());
                 task.setReminder(reminderBool);
 
-                //adding to database
                 DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
                         .taskDao()
                         .insert(task);
@@ -508,8 +494,7 @@ public class AddTaskActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-//                startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.saved, Toast.LENGTH_LONG).show();
             }
         }
 

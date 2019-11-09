@@ -15,6 +15,27 @@
     <string name="login_here">Already have an Account? Login Here</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-
+    <string name="task_title">Create Your Task</string>
+    <string name="permission_mandatory">These permissions are mandatory for the application. Please allow access.</string>
+    <string name="okay">Okay</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_source">Select source</string>
+    <string name="default_cat">default</string>
+    <string name="date_required">Date required</string>
+    <string name="task_required">Task required</string>
+    <string name="desc_required">Desc required</string>
+    <string name="time_required">Time required</string>
+    <string name="profile">Profile</string>
+    <string name="select_time">Select Time</string>
+    <string name="saved">Saved</string>
+    <string name="ask_email">Please enter your email</string>
+    <string name="ask_password">Please enter your password</string>
+    <string name="invalid_email_password">Invalid email or password</string>
+    <string name="already_in_profile">Already in Profile</string>
+    <string name="ask_username">Please enter username</string>
+    <string name="ask_valid_email">Enter a valid email</string>
+    <string name="error_registration">Some error occurred while registering user</string>
+    <string name="task_list_title">Your Tasks</string>
+    <string name="already_in_task_list">Already in To Do List</string>
 
 </resources>

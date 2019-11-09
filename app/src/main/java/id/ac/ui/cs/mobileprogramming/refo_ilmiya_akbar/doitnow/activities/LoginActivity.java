@@ -1,18 +1,9 @@
 package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.RequestHandler;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.URLs;
-import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.User;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -24,6 +15,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.SharedPrefManager;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.database_configs.DatabaseClient;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities.User;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.RequestHandler;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.http_connections.URLs;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword;
@@ -33,12 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
 
-
-        //if user presses on login
-        //calling the method login
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,11 +42,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //if user presses on not registered
         findViewById(R.id.textViewRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //open register screen
                 finish();
                 startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
@@ -58,47 +52,40 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void userLogin() {
-        //first getting the values
         final String username = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
 
-        //validating inputs
         if (TextUtils.isEmpty(username)) {
-            editTextEmail.setError("Please enter your email");
+            editTextEmail.setError(getString(R.string.ask_email));
             editTextEmail.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("Please enter your password");
+            editTextPassword.setError(getString(R.string.ask_password));
             editTextPassword.requestFocus();
             return;
         }
 
-        //if everything is fine
-
         class UserLogin extends AsyncTask<Void, Void, String> {
 
-            ProgressBar progressBar;
+            private ProgressBar progressBar;
 
             @Override
             protected String doInBackground(Void... voids) {
-                //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
-                //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("email", username);
                 params.put("password", password);
 
-                //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
             }
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
             }
 
@@ -109,16 +96,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 try {
-                    //converting response to json object
                     JSONObject obj = new JSONObject(s);
-                    //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), obj.getString("message"),
+                                Toast.LENGTH_SHORT).show();
 
-                        //getting the user from the response
                         JSONObject userJson = obj.getJSONObject("user");
 
-                        //creating a new user object
                         User user = new User(
                                 userJson.getInt("ID"),
                                 userJson.getString("username"),
@@ -129,13 +113,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         checkUserExistence(user);
 
-                        //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user.getEmail());
+                        SharedPrefManager.getInstance(getApplicationContext())
+                                .userLogin(user.getEmail());
 
                         finish();
                         startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid email or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.invalid_email_password,
+                                Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -149,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         ul.execute();
     }
 
-    private void checkUserExistence(User userLogin){
+    private void checkUserExistence(User userLogin) {
         final User currentUser = userLogin;
         class CheckUserExistence extends AsyncTask<Void, Void, List<User>> {
             @Override
@@ -187,7 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... voids) {
 
-                //creating a user
                 User user = new User(
                         userDataFinal.getId(),
                         userDataFinal.getUsername(),
@@ -197,16 +181,10 @@ public class LoginActivity extends AppCompatActivity {
                 );
 
 
-                //adding to database
                 DatabaseClient.getInstance(getApplicationContext()).getAppDatabase()
                         .userDao()
                         .insert(user);
                 return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }
 

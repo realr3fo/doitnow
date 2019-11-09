@@ -16,4 +16,26 @@
     <string name="username">Username</string>
     <string name="close">Cerrar</string>
     <string name="open">Abierto</string>
+    <string name="task_title">Crea Tu Tarea</string>
+    <string name="permission_mandatory">Estos permisos son obligatorios para la aplicación. Por favor, permite el acceso.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="okay">Bueno</string>
+    <string name="select_source">Seleccionar Fuente</string>
+    <string name="date_required">fecha requerida</string>
+    <string name="default_cat">defecto</string>
+    <string name="desc_required">Se requiere descripción</string>
+    <string name="task_required">tarea requerida</string>
+    <string name="time_required">tiempo requerido</string>
+    <string name="profile">Perfil</string>
+    <string name="saved">Salvado</string>
+    <string name="select_time">Seleccionar Hora</string>
+    <string name="already_in_profile">Ya en el Perfil</string>
+    <string name="already_in_task_list">Ya en la lista de tareas</string>
+    <string name="ask_email">Por favor introduzca su correo electrónico</string>
+    <string name="ask_password">Por favor, introduzca su contraseña</string>
+    <string name="ask_username">Por favor, ingrese su nombre de usuario</string>
+    <string name="ask_valid_email">Introduzca un correo electrónico válido</string>
+    <string name="error_registration">Se produjo algún error al registrar al usuario</string>
+    <string name="invalid_email_password">Correo electrónico o contraseña no válidos</string>
+    <string name="task_list_title">Sus Tareas</string>
 </resources>

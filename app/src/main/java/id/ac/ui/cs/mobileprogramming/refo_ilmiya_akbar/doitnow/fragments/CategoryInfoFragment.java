@@ -70,7 +70,8 @@ public class CategoryInfoFragment extends Fragment implements View.OnClickListen
             categoryListViewModel.insert(category);
             categoryName.setText("");
         } else {
-            Toast.makeText(getActivity(), "Please fill in the required info", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please fill in the category name",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

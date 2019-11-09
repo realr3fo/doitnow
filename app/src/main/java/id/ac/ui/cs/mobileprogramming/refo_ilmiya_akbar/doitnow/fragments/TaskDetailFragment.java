@@ -73,7 +73,6 @@ public class TaskDetailFragment extends Fragment {
             checkBoxFinished.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Check Box Clicked", Toast.LENGTH_SHORT).show();
                     updateTask(task);
                 }
             });
@@ -139,7 +138,6 @@ public class TaskDetailFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getActivity(), "Task Finished", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -161,7 +159,6 @@ public class TaskDetailFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
                 if (getActivity() != null && getActivity() instanceof TaskDetailActivity) {
                     getActivity().onBackPressed();
                 } else {
