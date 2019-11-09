@@ -37,7 +37,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
 
     public CategoryListAdapter(Context context) {
-        LayoutInflater mInflater = LayoutInflater.from(context);
+        LayoutInflater.from(context);
     }
 
     @NonNull
@@ -56,7 +56,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             Category current = mCategories.get(position);
             holder.bind(current);
         } else {
-            holder.categoryNameView.setText("No Word");
+            holder.categoryNameView.setText(R.string.no_word);
         }
     }
 

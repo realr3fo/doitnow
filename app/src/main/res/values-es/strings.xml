@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DoItNow</string>
-    <string name="helloworld">Hola Mundo</string>
+    <string name="hello_world">Hola Mundo</string>
     <string name="email">Email</string>
     <string name="female">Hembra</string>
     <string name="gender">Género</string>
@@ -38,4 +38,10 @@
     <string name="error_registration">Se produjo algún error al registrar al usuario</string>
     <string name="invalid_email_password">Correo electrónico o contraseña no válidos</string>
     <string name="task_list_title">Sus Tareas</string>
+    <string name="no_word">Sin Palabras</string>
+    <string name="date_changed_broadcast">Ha cambiado su fecha, verifique las tareas a tiempo</string>
+    <string name="time_changed_broadcast">Ha cambiado su hora, por favor verifique las tareas a tiempo</string>
+    <string name="timezone_changed_broadcast">Ha cambiado su zona horaria, verifique las tareas a tiempo</string>
+    <string name="complete_task">Terminado</string>
+    <string name="not_complete_task">Sin Completar</string>
 </resources>

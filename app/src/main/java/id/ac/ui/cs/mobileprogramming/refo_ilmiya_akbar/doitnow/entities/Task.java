@@ -1,15 +1,13 @@
 package id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.entities;
 
-//import android.arch.persistence.room.ColumnInfo;
-//import android.arch.persistence.room.Entity;
-//import android.arch.persistence.room.PrimaryKey;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.GlobalApplication;
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
 
 import java.io.Serializable;
 
@@ -31,10 +29,10 @@ public class Task implements Serializable, Parcelable {
     @ColumnInfo(name = "finished")
     private boolean finished;
 
-    @ColumnInfo(name="category")
+    @ColumnInfo(name = "category")
     private String category;
 
-    @ColumnInfo(name="userMail")
+    @ColumnInfo(name = "userMail")
     private String userMail;
 
     @ColumnInfo(name = "attachment_file_path")
@@ -70,10 +68,7 @@ public class Task implements Serializable, Parcelable {
 
     public Task() {
     }
-
-    /*
-     * Getters and Setters
-     * */
+    
     public int getId() {
         return id;
     }
@@ -120,9 +115,9 @@ public class Task implements Serializable, Parcelable {
 
     public String completed() {
         if (this.isFinished()) {
-            return "Completed";
+            return GlobalApplication.getAppContext().getString(R.string.complete_task);
         } else {
-            return "Not Completed";
+            return GlobalApplication.getAppContext().getString(R.string.not_complete_task);
         }
     }
 

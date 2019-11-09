@@ -7,20 +7,22 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import id.ac.ui.cs.mobileprogramming.refo_ilmiya_akbar.doitnow.R;
+
 public class MyBroadcastReceiver extends android.content.BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         switch (Objects.requireNonNull(intent.getAction())) {
             case "android.intent.action.TIME_SET":
-                Toast.makeText(context, "You have changed your time, please check your tasks due time",
+                Toast.makeText(context, R.string.time_changed_broadcast,
                         Toast.LENGTH_LONG).show();
                 break;
             case "android.intent.action.TIMEZONE_CHANGED":
-                Toast.makeText(context, "You have changed your timezone, please check your tasks due time",
+                Toast.makeText(context, R.string.timezone_changed_broadcast,
                         Toast.LENGTH_LONG).show();
                 break;
             case "android.intent.action.DATE_CHANGED":
-                Toast.makeText(context, "You have changed your date, please check your tasks due time",
+                Toast.makeText(context, R.string.date_changed_broadcast,
                         Toast.LENGTH_LONG).show();
                 break;
         }

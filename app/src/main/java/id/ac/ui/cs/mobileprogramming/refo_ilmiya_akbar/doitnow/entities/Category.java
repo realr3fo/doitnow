@@ -26,9 +26,6 @@ public class Category {
     @ColumnInfo(name = "createdAt")
     private String createdAt;
 
-    /*
-     * Getters and Setters
-     * */
     public int getId() {
         return id;
     }
